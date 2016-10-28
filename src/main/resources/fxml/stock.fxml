@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.transporteur.gestionquincallerie.software.controllers.StockController">
+   <children>
+      <Pane prefHeight="50.0" prefWidth="800.0" style="-fx-background-color: #1e88e5;">
+         <children>
+            <Label layoutX="14.0" layoutY="18.0" text="STOCK" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="20.0" />
+               </font>
+            </Label>
+            <JFXHamburger layoutX="747.0" layoutY="16.0" />
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Pane>
+      <JFXComboBox fx:id="cdxFiltre" layoutX="21.0" layoutY="72.0" prefHeight="38.0" prefWidth="244.0" promptText="Liste des filtres" />
+      <JFXTextField fx:id="edtNomProduit" focusColor="#1976d2" labelFloat="true" layoutX="297.0" layoutY="77.0" maxWidth="378.0" minWidth="186.0" prefHeight="38.0" prefWidth="244.0" promptText="Nom produit" unFocusColor="#1e88e5" />
+      <DatePicker fx:id="dateD" layoutX="49.0" layoutY="138.0" prefHeight="38.0" prefWidth="218.0" />
+      <DatePicker fx:id="dateF" layoutX="334.0" layoutY="137.0" prefHeight="38.0" prefWidth="208.0" />
+      <JFXButton fx:id="btnRecherche" buttonType="RAISED" layoutX="605.0" layoutY="118.0" onMouseClicked="#rechercher" prefHeight="38.0" prefWidth="140.0" style="-fx-background-color: #1e88e5;" text="Rechercher" textFill="WHITE" />
+      <TreeTableView layoutX="11.0" layoutY="212.0" prefHeight="337.0" prefWidth="778.0">
+        <columns>
+          <TreeTableColumn prefWidth="75.0" text="ID" />
+          <TreeTableColumn prefWidth="216.0" text="DESIGNATION" />
+            <TreeTableColumn prefWidth="102.0" text="QUANTITÉ" />
+            <TreeTableColumn prefWidth="157.0" text="PRIX ACHAT" />
+            <TreeTableColumn prefWidth="227.0" text="DATE APPROVISIONNEMENT" />
+        </columns>
+      </TreeTableView>
+      <JFXButton fx:id="btnImprimer" buttonType="RAISED" layoutX="623.0" layoutY="553.0" onMouseExited="#imprimer" prefHeight="38.0" prefWidth="140.0" style="-fx-background-color: #1e88e5;" text="Imprimer" textFill="WHITE" />
+      <Label layoutX="14.0" layoutY="565.0" text="NOMBRE DE PRODUITS" />
+      <Label fx:id="lblNbrProduit" layoutX="174.0" layoutY="561.0" prefHeight="15.0" prefWidth="44.0" text="0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="11.0" layoutY="154.0" text="DU" />
+      <Label layoutX="290.0" layoutY="154.0" text="AU" />
+   </children>
+</AnchorPane>

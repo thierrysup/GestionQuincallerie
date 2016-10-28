@@ -1,0 +1,10 @@
+# maven project
+target/
+
+# eclipse project
+.classpath
+.project
+.settings/
+
+# visual paradigm
+*.vpp~*
