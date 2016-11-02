@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.transporteur.gestionquincallerie.software.MainApplication;
+import static com.transporteur.gestionquincallerie.software.MainApplication.stage;
 import com.transporteur.gestionquincallerie.software.config.BootInitializable;
 import com.transporteur.gestionquincallerie.software.entity.Employe;
 import com.transporteur.gestionquincallerie.software.services.EmployeIService;
@@ -11,6 +12,8 @@ import com.transporteur.gestionquincallerie.software.services.impl.EmployeServic
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,11 +28,15 @@ import javafx.scene.layout.HBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
-@Component
+//@Component
+@Controller
 public class AuthentificationController implements BootInitializable{
 
     private ApplicationContext springContext;
+    
+    public static Stage secondStage;
 
     @FXML
     private JFXPasswordField edtmdp;
@@ -45,13 +52,9 @@ public class AuthentificationController implements BootInitializable{
     
     @Autowired
     private EmployeServiceImp empserv;
-    @Autowired
-    private AccueilController acc ;
     
-    private MainApplication mAp;
-
     @FXML
-    void connexion(ActionEvent event) {
+    void connexion(ActionEvent event) throws IOException {
 //       String pass = String.valueOf(edtmdp.getText().hashCode());
 //       if((!edtlogin.getText().isEmpty())&&(!edtmdp.getText().isEmpty())){
 //           Employe emp = empserv.findEmployeByLogin(edtlogin.getText());
@@ -60,9 +63,12 @@ public class AuthentificationController implements BootInitializable{
 //           }
 //       } now we are waitting Employe Controller and Fxml to introduise.
             if((edtlogin.getText().equals("root"))&&(edtmdp.getText().equals("root"))){
-                Stage secondStage = new Stage();
-            secondStage.setScene(new Scene(new HBox(4, new Label("Second window"))));
-            secondStage.show();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/accueil.fxml"));         
+                secondStage = new Stage();
+                //loader.setController(new AccueilController());
+                stage.close();
+                secondStage.setScene(new Scene((Parent) loader.load()));
+                secondStage.show();
              
                 System.out.println("cool connexion "+edtlogin.getText());
             }else{
@@ -74,6 +80,11 @@ public class AuthentificationController implements BootInitializable{
     void annuler(ActionEvent event) {
         System.exit(0);
         //Platform.exit();
+    }
+    
+    @FXML
+    void home(ActionEvent event) {
+
     }
 
     @Override

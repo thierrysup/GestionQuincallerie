@@ -2,7 +2,9 @@ package com.transporteur.gestionquincallerie.software.controllers;
 
 
 import com.jfoenix.controls.JFXButton;
+import static com.transporteur.gestionquincallerie.software.MainApplication.stage;
 import com.transporteur.gestionquincallerie.software.config.BootInitializable;
+import static com.transporteur.gestionquincallerie.software.controllers.AuthentificationController.secondStage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,6 +12,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -17,14 +21,18 @@ import javafx.stage.Stage;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 
-@Component
+//@Component
+@Controller
 public class AccueilController implements BootInitializable{
 
     
     
     private ApplicationContext springContext;
+    
+    public static Stage accueilStage;
     
   @FXML
     private ImageView imgLogo;
@@ -48,17 +56,34 @@ public class AccueilController implements BootInitializable{
     private Label lblSlogan;
 
     @FXML
-    void approvisioner(ActionEvent event) {
-
+    void approvisioner(ActionEvent event) throws IOException {
+         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/approvisionnement.fxml"));         
+                accueilStage = new Stage();
+            //    loader.setController(new ApprovController());
+                secondStage.close();
+                accueilStage.setScene(new Scene((Parent) loader.load()));
+                accueilStage.show();
+             
     }
     
     @FXML
-    void livraison(ActionEvent event) {
-
+    void livraison(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/livraison.fxml"));         
+                accueilStage = new Stage();
+            //    loader.setController(new ApprovController());
+                secondStage.close();
+                accueilStage.setScene(new Scene((Parent) loader.load()));
+                accueilStage.show();
     }
     
     @FXML
-    void stock(ActionEvent event) {
+    void stock(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stock.fxml"));         
+                accueilStage = new Stage();
+            //    loader.setController(new ApprovController());
+                secondStage.close();
+                accueilStage.setScene(new Scene((Parent) loader.load()));
+                accueilStage.show();
 
     }
 
@@ -69,7 +94,7 @@ public class AccueilController implements BootInitializable{
 
     @FXML
     void aide(ActionEvent event) {
-
+        System.out.println("cool les gars");
     }
 
     @Override

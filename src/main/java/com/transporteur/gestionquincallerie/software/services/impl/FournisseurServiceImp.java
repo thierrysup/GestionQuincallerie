@@ -7,6 +7,7 @@ package com.transporteur.gestionquincallerie.software.services.impl;
 
 import com.douwe.generic.dao.DataAccessException;
 import com.transporteur.gestionquincallerie.software.dao.FournisseurIDao;
+import com.transporteur.gestionquincallerie.software.dao.ProduitIDao;
 import com.transporteur.gestionquincallerie.software.entity.Fournisseur;
 import com.transporteur.gestionquincallerie.software.entity.Produit;
 import com.transporteur.gestionquincallerie.software.services.FournisseurIService;
@@ -27,13 +28,22 @@ import org.springframework.stereotype.Service;
 public class FournisseurServiceImp implements FournisseurIService{
 
     @Resource
-    @Autowired
     private FournisseurIDao fournisseurIDao;
     
     @Resource
-    @Autowired
-    private ProduitServiceImp pImp;
+    private ProduitIDao pImp;
 
+    public FournisseurServiceImp() {
+    }
+
+    
+    
+    public FournisseurServiceImp(FournisseurIDao fournisseurIDao, ProduitIDao pImp) {
+        this.fournisseurIDao = fournisseurIDao;
+        this.pImp = pImp;
+    }
+
+    
     public FournisseurIDao getFournisseurIDao() {
         return fournisseurIDao;
     }
@@ -48,9 +58,9 @@ public class FournisseurServiceImp implements FournisseurIService{
     public Fournisseur createFournisseur(Fournisseur fournisseur) throws ServiceException {
          try {
              
-             Produit pd = pImp.findProduitById(fournisseur.getProduit().getId());
+             Produit pd = pImp.findById(fournisseur.getProduit().getId());
              pd.setQte(pd.getQte() + fournisseur.getQte());
-             pImp.updateProduit(pd); 
+             pImp.update(pd); 
              
             return fournisseurIDao.create(fournisseur);
         } catch (DataAccessException ex) {

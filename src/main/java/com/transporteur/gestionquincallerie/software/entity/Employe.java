@@ -15,13 +15,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 /**
  *
  * @author thierry
  */
 @Entity
-@Table(name = "employe")
 public class Employe implements Serializable{
     
     private static final long serialVersionUID = 1L;

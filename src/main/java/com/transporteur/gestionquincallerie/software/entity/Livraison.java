@@ -15,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 /**
@@ -23,7 +22,6 @@ import javax.persistence.Temporal;
  * @author thierry
  */
 @Entity
-@Table(name = "livraison")
 public class Livraison implements Serializable{
     
     private static final long serialVersionUID = 1L;

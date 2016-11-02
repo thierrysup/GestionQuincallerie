@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
@@ -16,26 +17,31 @@
                   <Font name="System Bold Italic" size="20.0" />
                </font>
             </Label>
-            <JFXHamburger layoutX="756.0" layoutY="15.0" />
+            <ImageView fitHeight="38.0" fitWidth="44.0" layoutX="752.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/House-i.png" />
+               </image>
+            </ImageView>
+            <JFXButton layoutX="748.5" layoutY="6.0" onAction="#home" prefHeight="38.0" prefWidth="44.0" />
          </children>
          <effect>
             <DropShadow />
          </effect>
       </Pane>
-      <JFXComboBox fx:id="cbxProduit" layoutX="22.0" layoutY="73.0" prefHeight="40.0" prefWidth="509.0" promptText="Liste des produits" />
-      <JFXCheckBox fx:id="chxautre" checkedColor="#1976d2" layoutX="572.0" layoutY="151.0" text="Autres" unCheckedColor="#1e88e5" />
-      <JFXComboBox fx:id="cbxClient" layoutX="22.0" layoutY="130.0" prefHeight="40.0" prefWidth="509.0" promptText="Liste des clients" />
-      <JFXTextField fx:id="edtNom" focusColor="#1976d2" labelFloat="true" layoutX="22.0" layoutY="199.0" maxWidth="383.0" minWidth="370.0" prefHeight="40.0" prefWidth="370.0" promptText="Nom client" unFocusColor="#1e88e5" />
-      <JFXTextField fx:id="edtAdresse" focusColor="#1976d2" labelFloat="true" layoutX="417.0" layoutY="197.0" maxWidth="383.0" minWidth="370.0" prefHeight="40.0" prefWidth="370.0" promptText="Adresse" unFocusColor="#1e88e5" />
-      <JFXButton fx:id="btnValider" buttonType="RAISED" layoutX="333.0" layoutY="254.0" onMouseClicked="#valider" prefHeight="40.0" prefWidth="122.0" style="-fx-background-color: #1e88e5;" text="Valider" textFill="WHITE" />
-      <TableView layoutX="6.0" layoutY="311.0" prefHeight="240.0" prefWidth="791.0" tableMenuButtonVisible="true">
+      <JFXComboBox fx:id="cbxProduit" layoutX="21.0" layoutY="66.0" prefHeight="40.0" prefWidth="509.0" promptText="Liste des produits" />
+      <JFXCheckBox fx:id="chxautre" checkedColor="#1976d2" layoutX="570.0" layoutY="194.0" onAction="#oClient" text="Autres" unCheckedColor="#1e88e5" />
+      <JFXComboBox fx:id="cbxClient" layoutX="21.0" layoutY="166.0" prefHeight="40.0" prefWidth="509.0" promptText="Liste des clients" />
+      <JFXTextField fx:id="edtNom" disable="true" focusColor="#1976d2" labelFloat="true" layoutX="14.0" layoutY="253.0" maxWidth="383.0" minWidth="207.0" prefHeight="40.0" prefWidth="207.0" promptText="Nom client" unFocusColor="#1e88e5" />
+      <JFXTextField fx:id="edtAdresse" disable="true" focusColor="#1976d2" labelFloat="true" layoutX="245.0" layoutY="253.0" maxWidth="383.0" minWidth="314.0" prefHeight="40.0" prefWidth="314.0" promptText="Adresse" unFocusColor="#1e88e5" />
+      <JFXButton fx:id="btnValider" buttonType="RAISED" layoutX="655.0" layoutY="253.0" onAction="#valider" onMouseClicked="#valider" prefHeight="40.0" prefWidth="122.0" style="-fx-background-color: #1e88e5;" text="Valider" textFill="WHITE" />
+      <TableView layoutX="6.0" layoutY="301.0" prefHeight="237.0" prefWidth="791.0" tableMenuButtonVisible="true">
          <columns>
             <TableColumn prefWidth="302.0" text="DESIGNATION" />
             <TableColumn minWidth="0.0" prefWidth="213.0" text="QUANTITE" />
             <TableColumn minWidth="0.0" prefWidth="272.0" text="NOM CLIENT" />
          </columns>
       </TableView>
-      <JFXButton fx:id="btnImprimer" buttonType="RAISED" layoutX="339.0" layoutY="554.0" onMouseClicked="#imprimer" prefHeight="40.0" prefWidth="122.0" style="-fx-background-color: #1e88e5;" text="Imprimer" textFill="WHITE" />
-      <JFXTextField fx:id="edtQte" focusColor="#1976d2" labelFloat="true" layoutX="566.0" layoutY="78.0" maxWidth="207.0" minWidth="207.0" prefHeight="40.0" prefWidth="207.0" promptText="Quantité" unFocusColor="#1e88e5" />
+      <JFXButton fx:id="btnImprimer" buttonType="RAISED" layoutX="655.0" layoutY="551.0" onAction="#imprimer" onMouseClicked="#imprimer" prefHeight="40.0" prefWidth="122.0" style="-fx-background-color: #1e88e5;" text="Imprimer" textFill="WHITE" />
+      <JFXTextField fx:id="edtQte" focusColor="#1976d2" labelFloat="true" layoutX="563.0" layoutY="83.0" maxWidth="207.0" minWidth="207.0" prefHeight="31.0" prefWidth="207.0" promptText="Quantité" unFocusColor="#1e88e5" />
    </children>
 </AnchorPane>

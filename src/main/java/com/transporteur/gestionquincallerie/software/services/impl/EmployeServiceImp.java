@@ -26,9 +26,19 @@ import org.springframework.stereotype.Service;
 public class EmployeServiceImp implements EmployeIService{
 
     @Resource
-    @Autowired
     private EmployeIDao employeIDao;
 
+    public EmployeServiceImp() {
+    }
+
+    
+    
+    public EmployeServiceImp(EmployeIDao employeIDao) {
+        this.employeIDao = employeIDao;
+    }
+
+    
+    
     public EmployeIDao getEmployeIDao() {
         return employeIDao;
     }

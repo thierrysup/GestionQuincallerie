@@ -25,10 +25,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Service
 public class ProduitServiceImp implements ProduitIService{
 
-    @Autowired
     @Resource
     private ProduitIDao produitIDao;
 
+    public ProduitServiceImp(ProduitIDao produitIDao) {
+        this.produitIDao = produitIDao;
+    }
+
+    public ProduitServiceImp() {
+    }
+
+    
+    
     public ProduitIDao getProduitIDao() {
         return produitIDao;
     }

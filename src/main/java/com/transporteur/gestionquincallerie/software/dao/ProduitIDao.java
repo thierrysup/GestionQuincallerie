@@ -7,11 +7,13 @@ package com.transporteur.gestionquincallerie.software.dao;
 
 import com.transporteur.gestionquincallerie.software.entity.Produit;
 import com.douwe.generic.dao.IDao;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author thierry
  */
+@Repository
 public interface ProduitIDao extends IDao<Produit,Long>{
     
 }

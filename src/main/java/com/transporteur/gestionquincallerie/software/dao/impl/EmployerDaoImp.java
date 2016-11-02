@@ -9,6 +9,8 @@ import com.douwe.generic.dao.impl.GenericDao;
 import com.transporteur.gestionquincallerie.software.dao.EmployeIDao;
 import com.transporteur.gestionquincallerie.software.entity.Employe;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *

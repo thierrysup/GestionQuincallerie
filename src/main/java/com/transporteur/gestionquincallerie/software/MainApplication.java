@@ -1,6 +1,10 @@
 package com.transporteur.gestionquincallerie.software;
 
 import com.transporteur.gestionquincallerie.software.controllers.AuthentificationController;
+import com.transporteur.gestionquincallerie.software.dao.ProduitIDao;
+import com.transporteur.gestionquincallerie.software.entity.Produit;
+import com.transporteur.gestionquincallerie.software.services.impl.FournisseurServiceImp;
+import com.transporteur.gestionquincallerie.software.services.impl.ProduitServiceImp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -10,6 +14,7 @@ import javafx.concurrent.Task;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.PropertySource;
 
@@ -20,8 +25,9 @@ public class MainApplication extends Application{
 	
 	private static String[] argument;	
         
-        private Stage stage;
-
+        public static Stage stage;
+        
+       
 	@Override
 	public void start(Stage primaryStage) throws Exception {
             
@@ -51,17 +57,9 @@ public class MainApplication extends Application{
 			System.exit(0);
 			Platform.exit();
 		});
+              
 		task.run();
 	}
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
         
         
 	public static void main(String[] args) {

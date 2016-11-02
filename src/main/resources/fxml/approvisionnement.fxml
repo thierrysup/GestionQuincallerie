@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.validation.*?>
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.transporteur.gestionquincallerie.software.controllers.ApprovController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.transporteur.gestionquincallerie.software.controllers.ApprovController">
    <children>
       <Pane layoutY="-2.0" prefHeight="50.0" prefWidth="800.0" style="-fx-background-color: #1e88e5;">
          <children>
@@ -18,27 +23,32 @@
                   <Font name="System Bold Italic" size="20.0" />
                </font>
             </Label>
-            <JFXHamburger layoutX="756.0" layoutY="15.0" />
+            <ImageView fitHeight="38.0" fitWidth="44.0" layoutX="752.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/House-i.png" />
+               </image>
+            </ImageView>
+            <JFXButton layoutX="748.5" layoutY="6.0" onAction="#home" prefHeight="38.0" prefWidth="44.0" />
          </children>
          <effect>
             <DropShadow />
          </effect>
       </Pane>
-      <TableView layoutX="6.0" layoutY="352.0" prefHeight="200.0" prefWidth="791.0" tableMenuButtonVisible="true">
+      <TableView fx:id="tableV" layoutX="6.0" layoutY="352.0" prefHeight="200.0" prefWidth="791.0" tableMenuButtonVisible="true">
          <columns>
-            <TableColumn prefWidth="75.0" text="ID" />
-            <TableColumn prefWidth="192.0" text="DESIGNATION" />
-            <TableColumn prefWidth="101.0" text="QUANTITE" />
-            <TableColumn prefWidth="193.0" text="PRIX UNITAIRE" />
-            <TableColumn prefWidth="225.0" text="FOURNISSEUR" />
+            <TableColumn fx:id="idColum" prefWidth="75.0" text="ID" />
+            <TableColumn fx:id="designation" prefWidth="192.0" text="DESIGNATION" />
+            <TableColumn fx:id="qte" prefWidth="101.0" text="QUANTITE" />
+            <TableColumn fx:id="prix" prefWidth="193.0" text="PRIX UNITAIRE" />
+            <TableColumn fx:id="fourni" prefWidth="225.0" text="FOURNISSEUR" />
          </columns>
       </TableView>
-      <JFXButton fx:id="genererFiche" buttonType="RAISED" layoutX="608.0" layoutY="559.0" onMouseClicked="#genererLaFiche" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Generer la fiche" textFill="#f5f2f2">
+      <JFXButton fx:id="genererFiche" buttonType="RAISED" layoutX="655.0" layoutY="561.0" onMouseClicked="#genererLaFiche" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Generer la fiche" textFill="#f5f2f2">
          <effect>
             <DropShadow blurType="GAUSSIAN" />
          </effect>
       </JFXButton>
-      <JFXButton fx:id="btnValider" buttonType="RAISED" layoutX="600.0" layoutY="302.0" onMouseClicked="#valider" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Valider" textFill="#f8f5f5">
+      <JFXButton fx:id="btnValider" buttonType="RAISED" layoutX="655.0" layoutY="300.0" onMouseClicked="#valider" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Valider" textFill="#f8f5f5">
          <effect>
             <DropShadow blurType="GAUSSIAN" />
          </effect>
@@ -47,10 +57,10 @@
       <JFXTextField fx:id="edtQteProduit" focusColor="#1976d2" labelFloat="true" layoutX="11.0" layoutY="259.0" maxWidth="249.0" minWidth="249.0" prefHeight="31.0" prefWidth="249.0" promptText="Quantite du produit" unFocusColor="#1e88e5" />
       <JFXTextField fx:id="edtAddrFournisseur" disable="true" focusColor="#1976d2" labelFloat="true" layoutX="300.0" layoutY="215.0" maxWidth="277.0" minWidth="268.0" prefHeight="31.0" prefWidth="268.0" promptText="telephone fournsseur" unFocusColor="#1e88e5" />
       <JFXTextField fx:id="adtNomFournisseur" disable="true" focusColor="#1976d2" labelFloat="true" layoutX="11.0" layoutY="216.0" maxWidth="249.0" minWidth="249.0" prefHeight="31.0" prefWidth="249.0" promptText="Nom fournisseur" unFocusColor="#1e88e5" />
-      <JFXCheckBox checkedColor="#1976d2" layoutX="614.0" layoutY="168.0" onMouseClicked="#autreFournisseur" text="Autres" unCheckedColor="#1e88e5" />
+      <JFXCheckBox fx:id="chxfour" checkedColor="#1976d2" layoutX="608.0" layoutY="168.0" onAction="#oFournisseur" text="Autres" unCheckedColor="#1e88e5" />
       <JFXComboBox fx:id="cbxFournisseur" layoutX="11.0" layoutY="161.0" prefHeight="31.0" prefWidth="559.0" promptText="Liste des fournisseurs" />
       <JFXTextField fx:id="edtProduit" disable="true" focusColor="#1976d2" labelFloat="true" layoutX="11.0" layoutY="122.0" maxWidth="559.0" minWidth="559.0" prefHeight="31.0" prefWidth="559.0" promptText="Nom du produit" unFocusColor="#1e88e5" />
-      <JFXCheckBox fx:id="chxPlusProduit" checkedColor="#1976d2" layoutX="608.0" layoutY="76.0" onMouseClicked="#autreProduit" prefHeight="25.0" prefWidth="79.0" text="Autres" unCheckedColor="#1e88e5" />
+      <JFXCheckBox fx:id="chxPlusProduit" checkedColor="#1976d2" layoutX="608.0" layoutY="76.0" onAction="#oProduit" prefHeight="25.0" prefWidth="79.0" text="Autres" unCheckedColor="#1e88e5" />
       <JFXComboBox fx:id="cbxProduit" layoutX="11.0" layoutY="67.0" prefHeight="31.0" prefWidth="559.0" promptText="Listes des produits" />
    </children>
 </AnchorPane>
