@@ -1,5 +1,6 @@
 package com.transporteur.gestionquincallerie.software;
 
+import com.transporteur.gestionquincallerie.software.controllers.AccueilController;
 import com.transporteur.gestionquincallerie.software.controllers.AuthentificationController;
 import com.transporteur.gestionquincallerie.software.dao.ProduitIDao;
 import com.transporteur.gestionquincallerie.software.entity.Produit;
@@ -16,7 +17,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+
+//@Configuration 
 
 @SpringBootApplication
 public class MainApplication extends Application{
@@ -25,14 +29,12 @@ public class MainApplication extends Application{
 	
 	private static String[] argument;	
         
-        public static Stage stage;
         
        
 	@Override
 	public void start(Stage primaryStage) throws Exception {
             
             
-            stage =primaryStage;
 		Task<Object> task = new Task<Object>(){
 
 			@Override
@@ -50,8 +52,9 @@ public class MainApplication extends Application{
 			
 			primaryStage.setResizable(false);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Login");
+			primaryStage.setTitle("");
 			primaryStage.show();
+                        
 		});
 		task.setOnFailed(e -> {
 			System.exit(0);

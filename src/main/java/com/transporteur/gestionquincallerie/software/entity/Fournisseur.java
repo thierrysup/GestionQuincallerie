@@ -40,6 +40,8 @@ public class Fournisseur implements Serializable{
     
     @Column
     private boolean status;
+    @Column
+    private String designation;
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="produit_fk")
@@ -59,6 +61,14 @@ public class Fournisseur implements Serializable{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
     }
 
     public String getNomFourn() {

@@ -5,8 +5,6 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.transporteur.gestionquincallerie.software.config.BootInitializable;
-import static com.transporteur.gestionquincallerie.software.controllers.AccueilController.accueilStage;
-import static com.transporteur.gestionquincallerie.software.controllers.AuthentificationController.secondStage;
 import com.transporteur.gestionquincallerie.software.entity.Fournisseur;
 import com.transporteur.gestionquincallerie.software.entity.Produit;
 import com.transporteur.gestionquincallerie.software.services.impl.FournisseurServiceImp;
@@ -27,6 +25,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 @Component
-@Controller
 public class ApprovController implements BootInitializable{
 
      private ApplicationContext springContext;
@@ -65,6 +64,9 @@ public class ApprovController implements BootInitializable{
     
      @FXML
     private JFXCheckBox chxfour;
+     
+    @FXML
+    private BorderPane paneBAprov;
 
     @FXML
     private JFXButton genererFiche;
@@ -92,32 +94,87 @@ public class ApprovController implements BootInitializable{
 
     @FXML
     private JFXTextField edtQteProduit;
+    
+    @Autowired
+    private  AccueilController accueil;
+    
     @Autowired
     private ProduitServiceImp pServ ;
+    
     @Autowired
     private FournisseurServiceImp fServ ;
+    
+    
+    private  Fournisseur fo;
     
     private ObservableList<Fournisseur> fournisseursData = FXCollections.observableArrayList();
     
     private ObservableList<Produit> produitsData = FXCollections.observableArrayList();
-
-
-
+    
+    
+    
+//fx:controller="com.transporteur.gestionquincallerie.software.controllers.ApprovController"
     @FXML
     void genererLaFiche(ActionEvent event) {
+
+    }
+    private void clearFields(){
+        chxPlusProduit.setSelected(true);
+        chxfour.setSelected(true);
+        edtAddrFournisseur.setPromptText("telephone fournsseur");
+        adtNomFournisseur.setPromptText("Nom fournisseur");
+        edtPrixAhat.setPromptText("Prix d'achat");
+        edtProduit.setPromptText("Nom du produit");
+        edtQteProduit.setPromptText("Quantite du produit");
+        cbxFournisseur.setPromptText("Listes des produits");
+        cbxProduit.setPromptText("Liste des fournisseurs");
 
     }
 
     @FXML
     void valider(ActionEvent event) {
+       if(chxPlusProduit.isSelected()){
+           if(chxfour.isSelected()){
+             fo = new Fournisseur();
+                   fo.setAdresseFour(edtAddrFournisseur.getText());
+                   fo.setDesignation(edtProduit.getText());
+                   fo.setNomFourn(adtNomFournisseur.getText());
+                   fo.setPrixAchat(Float.parseFloat(edtPrixAhat.getText()));
+                   fo.setQte(Integer.parseInt(edtQteProduit.getText()));
+                   fo.setStatus(true);
+              Produit p = new Produit();
+                   p.setNom(edtProduit.getText());
+                   p.setQte(0);
+                   p.setStatus(true);
+              Produit pr =pServ.createProduit(p);
+                   fo.setProduit(pServ.createProduit(p));
+              fServ.createFournisseur(fo);
+              clearFields();
+            }else{
+           
+           
+           
+            }
+       
+       
+       
+       }
 
     }
 
     @Override
     public void initConstruct() {
-       
+       tableV.getItems().clear();
+       tableV.getItems().add(fo);
+       //tableV.getItems().addAll(fServ.findAllFournisseur());
+    //    System.out.println("number : "+fServ.findAllFournisseur().size());
     }
-
+    public void setCenterLayoutApprov(Node node){
+        this.paneBAprov.setCenter(node);
+        this.paneBAprov.autosize();
+    
+    } 
+    
     @Override
     public void stage(Stage primaryStage) {
     }
@@ -139,7 +196,7 @@ public class ApprovController implements BootInitializable{
         }
     }
     
-     @FXML
+    @FXML
     void oProduit(ActionEvent event) {
         if(!chxPlusProduit.isSelected()){
             edtProduit.setDisable(true);
@@ -156,13 +213,7 @@ public class ApprovController implements BootInitializable{
     
     @FXML
     private void home(ActionEvent event) throws IOException {
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/accueil.fxml"));         
-                secondStage = new Stage();
-                //loader.setController(new AccueilController());
-                accueilStage.close();
-                secondStage.setScene(new Scene((Parent) loader.load()));
-                secondStage.show();
-
+       setCenterLayoutApprov(accueil.initView());
     }
 
     @Override
@@ -170,7 +221,7 @@ public class ApprovController implements BootInitializable{
         try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/fxml/approvisionnement.fxml"));
-			//loader.setController(springContext.getBean(this.getClass()));
+			loader.setController(springContext.getBean(this.getClass()));
 			return loader.load();
 		} catch (IOException e) {
 			System.err.println("can't load approvisionnement");
@@ -205,29 +256,25 @@ public class ApprovController implements BootInitializable{
     }
     
     public void loading(){
-        System.out.println("  fournisseur : "+ fServ.toString().toLowerCase());
-  //     System.out.println("produit : "+pServ.findAllProduit().size());
-//        fournisseursData.addAll(fServ.findAllFournisseur());
-//        produitsData.addAll(pServ.findAllProduit());
-//        //tableV.setItems(fournisseursData);
-//        cbxFournisseur.setItems(loadNameFour(fournisseursData));
-//        cbxProduit.setItems(loadNameProd(produitsData));
+      
+        fournisseursData.addAll(fServ.findAllFournisseur());
+        produitsData.addAll(pServ.findAllProduit());
+        tableV.setItems(fournisseursData);
+        cbxFournisseur.setItems(loadNameFour(fournisseursData));
+        cbxProduit.setItems(loadNameProd(produitsData));
     
     }
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.pServ = new ProduitServiceImp();
-        this.fServ = new FournisseurServiceImp();
-           loading();
-          Produit p =new Produit();
-          p.setNom("couscous");
-          p.setPrixVente(2500);
-          p.setQte(50);
-          p.setStatus(true);
-            System.out.println(" le tetu fournisseur : "+ pServ.createProduit(p));
+        loading();
+//       idColum.setCellValueFactory(new PropertyValueFactory<Fournisseur, Long>("Id"));
+//       designation.setCellValueFactory(new PropertyValueFactory<Fournisseur,String>("designation"));
+//       qte.setCellValueFactory(new PropertyValueFactory<Fournisseur,Integer>("qte"));
+//       prix.setCellValueFactory(new PropertyValueFactory<Fournisseur,Float>("prixAchat"));
+//       fourni.setCellValueFactory(new PropertyValueFactory<Fournisseur,String>("nomFourn"));
         
-   
+       
     }
 
     @Override

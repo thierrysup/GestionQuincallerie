@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.transporteur.gestionquincallerie.software.MainApplication;
-import static com.transporteur.gestionquincallerie.software.MainApplication.stage;
 import com.transporteur.gestionquincallerie.software.config.BootInitializable;
 import com.transporteur.gestionquincallerie.software.entity.Employe;
 import com.transporteur.gestionquincallerie.software.services.EmployeIService;
@@ -24,19 +23,21 @@ import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
-//@Component
-@Controller
+@Component
 public class AuthentificationController implements BootInitializable{
 
     private ApplicationContext springContext;
     
-    public static Stage secondStage;
+    
+     @FXML
+    private BorderPane panLog;
 
     @FXML
     private JFXPasswordField edtmdp;
@@ -53,6 +54,14 @@ public class AuthentificationController implements BootInitializable{
     @Autowired
     private EmployeServiceImp empserv;
     
+    @Autowired
+    private AccueilController accueil;
+    
+    public void setCenterLayoutLogin(Node node){
+      this.panLog.setCenter(node);
+      this.panLog.autosize();
+    }
+    
     @FXML
     void connexion(ActionEvent event) throws IOException {
 //       String pass = String.valueOf(edtmdp.getText().hashCode());
@@ -63,14 +72,8 @@ public class AuthentificationController implements BootInitializable{
 //           }
 //       } now we are waitting Employe Controller and Fxml to introduise.
             if((edtlogin.getText().equals("root"))&&(edtmdp.getText().equals("root"))){
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/accueil.fxml"));         
-                secondStage = new Stage();
-                //loader.setController(new AccueilController());
-                stage.close();
-                secondStage.setScene(new Scene((Parent) loader.load()));
-                secondStage.show();
-             
-                System.out.println("cool connexion "+edtlogin.getText());
+               setCenterLayoutLogin(accueil.initView());
+               accueil.initConstruct();
             }else{
                 System.out.println("error of login or password "+edtlogin.getText());
             }
@@ -94,13 +97,13 @@ public class AuthentificationController implements BootInitializable{
     @Override
     public void stage(Stage primaryStage) {
     }
-
+ //fx:controller="com.transporteur.gestionquincallerie.software.controllers.AuthentificationController"
     @Override
     public Node initView(){
         try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/fxml/authentification.fxml"));
-			//loader.setController(springContext.getBean(this.getClass()));
+			loader.setController(springContext.getBean(this.getClass()));
 			return loader.load();
 		} catch (IOException e) {
 			System.err.println("can't load authentification");

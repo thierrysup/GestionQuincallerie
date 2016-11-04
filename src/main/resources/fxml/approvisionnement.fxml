@@ -4,63 +4,80 @@
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.transporteur.gestionquincallerie.software.controllers.ApprovController">
-   <children>
-      <Pane layoutY="-2.0" prefHeight="50.0" prefWidth="800.0" style="-fx-background-color: #1e88e5;">
-         <children>
-            <Label layoutX="14.0" layoutY="18.0" text="APPROVISIONNEMENT" textFill="WHITE">
-               <font>
-                  <Font name="System Bold Italic" size="20.0" />
-               </font>
-            </Label>
-            <ImageView fitHeight="38.0" fitWidth="44.0" layoutX="752.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../image/House-i.png" />
-               </image>
-            </ImageView>
-            <JFXButton layoutX="748.5" layoutY="6.0" onAction="#home" prefHeight="38.0" prefWidth="44.0" />
-         </children>
-         <effect>
-            <DropShadow />
-         </effect>
-      </Pane>
-      <TableView fx:id="tableV" layoutX="6.0" layoutY="352.0" prefHeight="200.0" prefWidth="791.0" tableMenuButtonVisible="true">
-         <columns>
-            <TableColumn fx:id="idColum" prefWidth="75.0" text="ID" />
-            <TableColumn fx:id="designation" prefWidth="192.0" text="DESIGNATION" />
-            <TableColumn fx:id="qte" prefWidth="101.0" text="QUANTITE" />
-            <TableColumn fx:id="prix" prefWidth="193.0" text="PRIX UNITAIRE" />
-            <TableColumn fx:id="fourni" prefWidth="225.0" text="FOURNISSEUR" />
-         </columns>
-      </TableView>
-      <JFXButton fx:id="genererFiche" buttonType="RAISED" layoutX="655.0" layoutY="561.0" onMouseClicked="#genererLaFiche" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Generer la fiche" textFill="#f5f2f2">
-         <effect>
-            <DropShadow blurType="GAUSSIAN" />
-         </effect>
-      </JFXButton>
-      <JFXButton fx:id="btnValider" buttonType="RAISED" layoutX="655.0" layoutY="300.0" onMouseClicked="#valider" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Valider" textFill="#f8f5f5">
-         <effect>
-            <DropShadow blurType="GAUSSIAN" />
-         </effect>
-      </JFXButton>
-      <JFXTextField fx:id="edtPrixAhat" focusColor="#1976d2" labelFloat="true" layoutX="300.0" layoutY="258.0" maxWidth="268.0" minWidth="268.0" prefHeight="31.0" prefWidth="268.0" promptText="Prix d'achat" unFocusColor="#1e88e5" />
-      <JFXTextField fx:id="edtQteProduit" focusColor="#1976d2" labelFloat="true" layoutX="11.0" layoutY="259.0" maxWidth="249.0" minWidth="249.0" prefHeight="31.0" prefWidth="249.0" promptText="Quantite du produit" unFocusColor="#1e88e5" />
-      <JFXTextField fx:id="edtAddrFournisseur" disable="true" focusColor="#1976d2" labelFloat="true" layoutX="300.0" layoutY="215.0" maxWidth="277.0" minWidth="268.0" prefHeight="31.0" prefWidth="268.0" promptText="telephone fournsseur" unFocusColor="#1e88e5" />
-      <JFXTextField fx:id="adtNomFournisseur" disable="true" focusColor="#1976d2" labelFloat="true" layoutX="11.0" layoutY="216.0" maxWidth="249.0" minWidth="249.0" prefHeight="31.0" prefWidth="249.0" promptText="Nom fournisseur" unFocusColor="#1e88e5" />
-      <JFXCheckBox fx:id="chxfour" checkedColor="#1976d2" layoutX="608.0" layoutY="168.0" onAction="#oFournisseur" text="Autres" unCheckedColor="#1e88e5" />
-      <JFXComboBox fx:id="cbxFournisseur" layoutX="11.0" layoutY="161.0" prefHeight="31.0" prefWidth="559.0" promptText="Liste des fournisseurs" />
-      <JFXTextField fx:id="edtProduit" disable="true" focusColor="#1976d2" labelFloat="true" layoutX="11.0" layoutY="122.0" maxWidth="559.0" minWidth="559.0" prefHeight="31.0" prefWidth="559.0" promptText="Nom du produit" unFocusColor="#1e88e5" />
-      <JFXCheckBox fx:id="chxPlusProduit" checkedColor="#1976d2" layoutX="608.0" layoutY="76.0" onAction="#oProduit" prefHeight="25.0" prefWidth="79.0" text="Autres" unCheckedColor="#1e88e5" />
-      <JFXComboBox fx:id="cbxProduit" layoutX="11.0" layoutY="67.0" prefHeight="31.0" prefWidth="559.0" promptText="Listes des produits" />
-   </children>
-</AnchorPane>
+<BorderPane fx:id="paneBAprov" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <BorderPane prefHeight="600.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <center>
+            <Pane BorderPane.alignment="CENTER">
+               <children>
+                  <JFXComboBox fx:id="cbxProduit" layoutX="5.0" prefHeight="31.0" prefWidth="559.0" promptText="Listes des produits" />
+                  <JFXTextField fx:id="edtAddrFournisseur" disable="true" focusColor="#1976d2" labelFloat="true" layoutX="294.0" layoutY="148.0" maxWidth="277.0" minWidth="268.0" prefHeight="31.0" prefWidth="268.0" promptText="telephone fournsseur" unFocusColor="#1e88e5" />
+                  <JFXCheckBox fx:id="chxfour" checkedColor="#1976d2" layoutX="602.0" layoutY="101.0" onAction="#oFournisseur" text="Autres" unCheckedColor="#1e88e5" />
+                  <JFXTextField fx:id="edtProduit" disable="true" focusColor="#1976d2" labelFloat="true" layoutX="5.0" layoutY="55.0" maxWidth="559.0" minWidth="559.0" prefHeight="31.0" prefWidth="559.0" promptText="Nom du produit" unFocusColor="#1e88e5" />
+                  <JFXCheckBox fx:id="chxPlusProduit" checkedColor="#1976d2" layoutX="602.0" layoutY="9.0" onAction="#oProduit" prefHeight="25.0" prefWidth="79.0" text="Autres" unCheckedColor="#1e88e5" />
+                  <JFXButton fx:id="genererFiche" buttonType="RAISED" layoutX="649.0" layoutY="494.0" onMouseClicked="#genererLaFiche" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Generer la fiche" textFill="#f5f2f2">
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" />
+                     </effect>
+                  </JFXButton>
+                  <JFXButton fx:id="btnValider" buttonType="RAISED" layoutX="649.0" layoutY="233.0" onAction="#valider" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Valider" textFill="#f8f5f5">
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" />
+                     </effect>
+                  </JFXButton>
+                  <JFXTextField fx:id="edtPrixAhat" focusColor="#1976d2" labelFloat="true" layoutX="294.0" layoutY="207.0" maxWidth="268.0" minWidth="268.0" prefHeight="31.0" prefWidth="268.0" promptText="Prix d'achat" unFocusColor="#1e88e5" />
+                  <JFXTextField fx:id="adtNomFournisseur" disable="true" focusColor="#1976d2" labelFloat="true" layoutX="5.0" layoutY="149.0" maxWidth="249.0" minWidth="249.0" prefHeight="31.0" prefWidth="249.0" promptText="Nom fournisseur" unFocusColor="#1e88e5" />
+                  <TableView fx:id="tableV" layoutX="6.0" layoutY="285.0" prefHeight="200.0" prefWidth="791.0" tableMenuButtonVisible="true">
+                     <columns>
+                        <TableColumn fx:id="idColum" prefWidth="75.0" text="ID" />
+                        <TableColumn fx:id="designation" prefWidth="192.0" text="DESIGNATION" />
+                        <TableColumn fx:id="qte" prefWidth="101.0" text="QUANTITE" />
+                        <TableColumn fx:id="prix" prefWidth="193.0" text="PRIX UNITAIRE" />
+                        <TableColumn fx:id="fourni" prefWidth="225.0" text="FOURNISSEUR" />
+                     </columns>
+                     <padding>
+                        <Insets bottom="2.0" left="3.0" right="1.0" top="1.0" />
+                     </padding>
+                  </TableView>
+                  <JFXComboBox fx:id="cbxFournisseur" layoutX="5.0" layoutY="94.0" prefHeight="31.0" prefWidth="559.0" promptText="Liste des fournisseurs" />
+                  <JFXTextField fx:id="edtQteProduit" focusColor="#1976d2" labelFloat="true" layoutX="6.0" layoutY="207.0" maxWidth="268.0" minWidth="268.0" prefHeight="31.0" prefWidth="268.0" promptText="Quantite du produit" unFocusColor="#1e88e5" />
+               </children>
+            </Pane>
+         </center>
+         <top>
+            <Pane prefHeight="50.0" prefWidth="800.0" style="-fx-background-color: #1e88e5;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="14.0" layoutY="18.0" text="APPROVISIONNEMENT" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="20.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="38.0" fitWidth="44.0" layoutX="752.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/House-i.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton layoutX="748.5" layoutY="6.0" onAction="#home" prefHeight="38.0" prefWidth="44.0" />
+               </children>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <BorderPane.margin>
+                  <Insets bottom="6.0" />
+               </BorderPane.margin>
+            </Pane>
+         </top>
+      </BorderPane>
+   </center>
+</BorderPane>

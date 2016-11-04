@@ -2,9 +2,7 @@ package com.transporteur.gestionquincallerie.software.controllers;
 
 
 import com.jfoenix.controls.JFXButton;
-import static com.transporteur.gestionquincallerie.software.MainApplication.stage;
 import com.transporteur.gestionquincallerie.software.config.BootInitializable;
-import static com.transporteur.gestionquincallerie.software.controllers.AuthentificationController.secondStage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,26 +14,30 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 
-//@Component
-@Controller
+@Component
 public class AccueilController implements BootInitializable{
 
     
     
     private ApplicationContext springContext;
     
-    public static Stage accueilStage;
+   
     
   @FXML
     private ImageView imgLogo;
+  
+  @FXML
+    private BorderPane paneBorder;
 
     @FXML
     private JFXButton btnApprov;
@@ -54,37 +56,44 @@ public class AccueilController implements BootInitializable{
 
     @FXML
     private Label lblSlogan;
+    
+    @Autowired
+    private ApprovController approv;
+    @Autowired
+    private LivraisonController livra;
+    @Autowired
+    private StockController stock;
 
-    @FXML
-    void approvisioner(ActionEvent event) throws IOException {
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/approvisionnement.fxml"));         
-                accueilStage = new Stage();
-            //    loader.setController(new ApprovController());
-                secondStage.close();
-                accueilStage.setScene(new Scene((Parent) loader.load()));
-                accueilStage.show();
-             
+    public BorderPane getPaneBorder() {
+        return paneBorder;
     }
+
+    public void setPaneBorder(BorderPane paneBorder) {
+        this.paneBorder = paneBorder;
+    }
+
+   
+    
+    public void setCenterLayout(Node node) {
+		this.paneBorder.setCenter(node);
+		this.paneBorder.autosize();
+	}
     
     @FXML
     void livraison(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/livraison.fxml"));         
-                accueilStage = new Stage();
-            //    loader.setController(new ApprovController());
-                secondStage.close();
-                accueilStage.setScene(new Scene((Parent) loader.load()));
-                accueilStage.show();
+        setCenterLayout(livra.initView());
+        livra.initConstruct();
     }
-    
+     @FXML
+    void approvisioner(ActionEvent event) throws IOException {
+         setCenterLayout(approv.initView());
+         approv.initConstruct();
+    }
+    //fx:controller="com.transporteur.gestionquincallerie.software.controllers.AccueilController"
     @FXML
     void stock(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/stock.fxml"));         
-                accueilStage = new Stage();
-            //    loader.setController(new ApprovController());
-                secondStage.close();
-                accueilStage.setScene(new Scene((Parent) loader.load()));
-                accueilStage.show();
-
+        setCenterLayout(stock.initView());
+        stock.initConstruct();
     }
 
     @FXML
@@ -110,7 +119,7 @@ public class AccueilController implements BootInitializable{
          try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/fxml/accueil.fxml"));
-			//loader.setController(springContext.getBean(this.getClass()));
+			loader.setController(springContext.getBean(this.getClass()));
 			return loader.load();
 		} catch (IOException e) {
 			System.err.println("can't load accueil");

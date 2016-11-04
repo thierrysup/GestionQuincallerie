@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
  *
  * @author thierry
  */
-@Repository
 public interface EmployeIDao extends IDao<Employe,Long> {
     
 }

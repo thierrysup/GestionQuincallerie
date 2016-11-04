@@ -8,6 +8,7 @@ package com.transporteur.gestionquincallerie.software.services;
 import com.transporteur.gestionquincallerie.software.entity.Produit;
 import java.util.List;
 import org.hibernate.service.spi.ServiceException;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *

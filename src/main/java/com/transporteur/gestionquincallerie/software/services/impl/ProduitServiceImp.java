@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
