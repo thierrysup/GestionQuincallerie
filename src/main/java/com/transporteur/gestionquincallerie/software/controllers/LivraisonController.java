@@ -7,15 +7,28 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.transporteur.gestionquincallerie.software.config.BootInitializable;
+import com.transporteur.gestionquincallerie.software.entity.Fournisseur;
+import com.transporteur.gestionquincallerie.software.entity.Livraison;
+import com.transporteur.gestionquincallerie.software.entity.Produit;
+import com.transporteur.gestionquincallerie.software.services.impl.LivraisonServiceImp;
+import com.transporteur.gestionquincallerie.software.services.impl.ProduitServiceImp;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.springframework.beans.BeansException;
@@ -31,15 +44,34 @@ public class LivraisonController implements BootInitializable{
     
     @FXML
     private JFXTextField edtNom;
+    
+     @FXML
+    private TableView<Livraison> tableV;
+     
+    @FXML
+    private TableColumn<Livraison,String> design;
+
+    @FXML
+    private TableColumn<Livraison,Integer> qte;
+
+    @FXML
+    private TableColumn<Livraison,String> nomClient;
+    
+    @FXML
+    private TableColumn<Livraison,String>  adrColumn;
 
     @FXML
     private JFXTextField edtAdresse;
 
     @FXML
-    private JFXComboBox<?> cbxClient;
+    private JFXComboBox<String> cbxClient;
 
     @FXML
-    private JFXComboBox<?> cbxProduit;
+    private JFXComboBox<String> cbxProduit;
+    
+    @FXML
+    private JFXComboBox<String> cbxClientAdresse;
+
 
     @FXML
     private JFXButton btnImprimer;
@@ -59,10 +91,121 @@ public class LivraisonController implements BootInitializable{
     @Autowired
     private AccueilController accueil;
 
+    @Autowired
+    private ProduitServiceImp pServ ;
+   
+    @Autowired
+    private LivraisonServiceImp lServ;
+    
+    private Livraison livr;
+    
+    private ObservableList<Livraison> livraisonsData = FXCollections.observableArrayList();
+    
+    private ObservableList<Produit> produitsData = FXCollections.observableArrayList();
+    
+    private ObservableList<Livraison> printList = FXCollections.observableArrayList();
+    
 
+    
+    private void clearFields(){
+        
+        chxautre.setSelected(false);
+        edtNom.setDisable(true);
+        edtNom.setText("");
+        edtNom.setPromptText("Nom client");
+        
+        edtAdresse.setDisable(true);
+        edtAdresse.setText("");
+        edtAdresse.setPromptText("Adresse");
+        
+        cbxClient.setDisable(false);
+        cbxClient.setPromptText("Liste des clients");
+        
+        cbxClientAdresse.setDisable(false);
+        cbxClientAdresse.setPromptText("Liste adresses clients");
+        
+        cbxProduit.setPromptText("Liste des produits");
+        
+        edtQte.setText("");
+        edtQte.setPromptText("Quantité");
+    }
+    
+    private ObservableList<String> loadNameLivr(ObservableList<Livraison> list){
+        int i = 0;
+        List<String> tab = new  ArrayList<String>() ;
+          while (i<list.size()) {
+            tab.add(list.get(i).getNomClient());
+            i++;
+        }
+        ObservableList<String> result = FXCollections.observableArrayList();
+          result.addAll(tab);
+          return result;
+    }
+    
+    private ObservableList<String> loadAdresseLivr(ObservableList<Livraison> list){
+        int i = 0;
+        List<String> tab = new  ArrayList<String>() ;
+          while (i<list.size()) {
+            tab.add(list.get(i).getAdresseClient());
+            i++;
+        }
+        ObservableList<String> result = FXCollections.observableArrayList();
+          result.addAll(tab);
+          return result;
+    }
+    
+    private ObservableList<String> loadNameProd(ObservableList<Produit> list){
+        int i = 0;
+        List<String> tab = new  ArrayList<String>() ;
+          while (i<list.size()) {
+            tab.add(list.get(i).getNom());
+            i++;
+        }
+        ObservableList<String> result = FXCollections.observableArrayList();
+          result.addAll(tab);
+          return result;
+    }
+    
+    
+    public void loading(){
+        
+       cbxProduit.setItems(null);
+       cbxClient.setItems(null);
+       livraisonsData.clear();
+       produitsData.clear();
+       
+       livraisonsData.addAll(lServ.findAllLivraison());
+       produitsData.addAll(pServ.findAllProduit());
+       cbxClient.setItems(loadNameLivr(livraisonsData));
+       cbxClientAdresse.setItems(loadNameLivr(livraisonsData));
+       cbxProduit.setItems(loadNameProd(produitsData));
+    }
+    
+    
+    
     @FXML
     void valider(ActionEvent event) {
-
+        if(chxautre.isSelected()){
+          
+             livr = new Livraison();
+                   livr.setNomClient(edtNom.getText());
+                   livr.setAdresseClient(edtAdresse.getText());
+                   livr.setDateLivre(new Date());
+                   livr.setDesignation(cbxProduit.getValue());
+                   livr.setQte(Integer.parseInt(edtQte.getText()));
+                   livr.setStatus(true);
+                   livr.setProduit(pServ.findProduitByName(String.valueOf(cbxProduit.getValue())));           
+              lServ.createLivraison(livr);
+              clearFields();
+              loading();
+              loadTableView();
+       }else{
+        
+        
+        
+        
+        
+        }
     }
      public void setCenterLayoutLivr(Node node) {
         this.paneBLivr.setCenter(node);
@@ -90,6 +233,8 @@ public class LivraisonController implements BootInitializable{
     @FXML
    private void home(ActionEvent event) throws IOException {
           setCenterLayoutLivr(accueil.initView());
+          tableV.getItems().clear();
+          tableV.setItems(null);
     }
 
     @FXML
@@ -122,11 +267,23 @@ public class LivraisonController implements BootInitializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+     loading();
     }
 
     @Override
     public void setApplicationContext(ApplicationContext ac) throws BeansException {
         this.springContext = ac;
+    }
+    
+   private void loadTableView(){
+       printList.add(livr);
+       tableV.getItems().add(livr);
+    
+       design.setCellValueFactory(new PropertyValueFactory<Livraison,String>("designation"));
+       qte.setCellValueFactory(new PropertyValueFactory<Livraison,Integer>("qte"));
+       nomClient.setCellValueFactory(new PropertyValueFactory<Livraison,String>("nomClient"));
+       adrColumn.setCellValueFactory(new PropertyValueFactory<Livraison,String>("adresseClient"));
+        
     }
 
    

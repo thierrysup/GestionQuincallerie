@@ -6,6 +6,7 @@
 package com.transporteur.gestionquincallerie.software.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -42,6 +44,10 @@ public class Fournisseur implements Serializable{
     private boolean status;
     @Column
     private String designation;
+    
+    @Column
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateFour;
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="produit_fk")
@@ -103,6 +109,14 @@ public class Fournisseur implements Serializable{
         this.prixAchat = prixAchat;
     }
 
+    public Date getDateFour() {
+        return dateFour;
+    }
+
+    public void setDateFour(Date dateFour) {
+        this.dateFour = dateFour;
+    }
+
     public boolean isStatus() {
         return status;
     }
@@ -110,6 +124,5 @@ public class Fournisseur implements Serializable{
     public void setStatus(boolean status) {
         this.status = status;
     }
-    
-    
+  
 }

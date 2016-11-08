@@ -32,16 +32,35 @@ public class Livraison implements Serializable{
     
     @Column
     private String nomClient;
+    
     @Column
     private String adresseClient;
+    
     @Column
     private int qte;
+    
+    @Column
+    private String designation;
+    
     @Column
     private boolean status;
+    
+    @Column
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateLivre;
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="produit_fk")
     private Produit produit;
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+    
 
     public String getAdresseClient() {
         return adresseClient;
@@ -69,9 +88,7 @@ public class Livraison implements Serializable{
         this.status = status;
     }
     
-    @Column
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dateLivre;
+   
 
     public Long getId() {
         return id;

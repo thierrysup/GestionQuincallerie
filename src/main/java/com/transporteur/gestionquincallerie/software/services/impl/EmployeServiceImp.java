@@ -29,118 +29,56 @@ public class EmployeServiceImp implements EmployeIService{
     @Resource
     private EmployeIDao employeIDao;
 
-    public EmployeServiceImp() {
-    }
-
-    
-    
-    public EmployeServiceImp(EmployeIDao employeIDao) {
-        this.employeIDao = employeIDao;
-    }
-
-    
-    
-    public EmployeIDao getEmployeIDao() {
-        return employeIDao;
-    }
-
-    public void setEmployeIDao(EmployeIDao employeIDao) {
-        this.employeIDao = employeIDao;
-    }
-    
-    
-    
     @Override
     public Employe createEmploye(Employe employe) throws ServiceException {
-          try {
-            return employeIDao.create(employe);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(EmployeServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le create");
-        }
+        return employeIDao.save(employe);
     }
 
     @Override
     public Employe findEmployeById(Long id) throws ServiceException {
-         try {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            return employeIDao.findById(id);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(EmployeServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le findByID");
-        }
+        return employeIDao.findOne(id);
     }
 
     @Override
     public Employe updateEmploye(Employe employe) throws ServiceException {
-         try {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-           return employeIDao.update(employe);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(EmployeServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le Update");
-        }
+        return employeIDao.save(employe);
     }
 
     @Override
     public List<Employe> findAllEmploye() throws ServiceException {
-         try {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            return employeIDao.findAll();
-        } catch (DataAccessException ex) {
-            Logger.getLogger(EmployeServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le findAll");
-        }
+        return employeIDao.findAll();
     }
 
     @Override
     public List<Employe> findEmployeByName(String name) throws ServiceException {
          List<Employe> result = new ArrayList<>();
-        try {
-               for (Employe employe : employeIDao.findAll()) {
-                if((name.isEmpty() || employe.getNomEmp().toLowerCase().contains(name.toLowerCase()))
-                        &&(employe.isStatus() == true)
-                        )
-                    result.add(employe);
-            }
-            
-        } catch (DataAccessException ex) {
-            Logger.getLogger(EmployeServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le findProductByName");
-        }
+         for (Employe employe : employeIDao.findAll()) {
+             if((name.isEmpty() || employe.getNomEmp().toLowerCase().contains(name.toLowerCase()))
+                     &&(employe.isStatus() == true)
+                     )
+                 result.add(employe);
+         }
         return result;
     }
 
     @Override
     public void deleteEmployeById(Employe employe) throws ServiceException {
-        try {
-            Employe emp = employeIDao.findById(employe.getId());
-            if (emp == null) {
-                throw new ServiceException("Customer with id " + employe.getId() + " not found");
-            }else{
+        Employe emp = employeIDao.findOne(employe.getId());
+        if (emp == null) {
+            throw new ServiceException("Customer with id " + employe.getId() + " not found");
+        }else{
             emp.setStatus(false);
-            employeIDao.update(emp);
-            }
-        } catch (DataAccessException ex) {
-            Logger.getLogger(EmployeServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le deleteLivraisonById");
+            employeIDao.save(emp);
         }
     }
 
     @Override
     public Employe findEmployeByLogin(String login) throws ServiceException {
-        try {
-                
-               for (Employe employe : employeIDao.findAll()) {
-                if((login.isEmpty() || employe.getLogin().toLowerCase().contains(login.toLowerCase()))
-                        &&(employe.isStatus() == true)
-                        )
-                    return employe;
-                 }
-            
-        } catch (DataAccessException ex) {
-            Logger.getLogger(EmployeServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le findProductByName");
+        for (Employe employe : employeIDao.findAll()) {
+            if((login.isEmpty() || employe.getLogin().toLowerCase().contains(login.toLowerCase()))
+                    &&(employe.isStatus() == true)
+                    )
+                return employe;
         }
         return null;
     }

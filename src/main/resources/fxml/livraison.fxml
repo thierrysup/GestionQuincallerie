@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="paneBLivr" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="paneBLivr" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <Pane BorderPane.alignment="CENTER">
          <children>
@@ -17,17 +23,19 @@
             <JFXButton fx:id="btnImprimer" buttonType="RAISED" layoutX="649.0" layoutY="485.0" onAction="#imprimer" onMouseClicked="#imprimer" prefHeight="40.0" prefWidth="122.0" style="-fx-background-color: #1e88e5;" text="Imprimer" textFill="WHITE" />
             <JFXTextField fx:id="edtNom" disable="true" focusColor="#1976d2" labelFloat="true" layoutX="8.0" layoutY="187.0" maxWidth="383.0" minWidth="207.0" prefHeight="40.0" prefWidth="207.0" promptText="Nom client" unFocusColor="#1e88e5" />
             <JFXTextField fx:id="edtQte" focusColor="#1976d2" labelFloat="true" layoutX="557.0" layoutY="17.0" maxWidth="207.0" minWidth="207.0" prefHeight="31.0" prefWidth="207.0" promptText="Quantité" unFocusColor="#1e88e5" />
-            <JFXButton fx:id="btnValider" buttonType="RAISED" layoutX="649.0" layoutY="187.0" onAction="#valider" onMouseClicked="#valider" prefHeight="40.0" prefWidth="122.0" style="-fx-background-color: #1e88e5;" text="Valider" textFill="WHITE" />
-            <TableView layoutX="6.0" layoutY="235.0" prefHeight="237.0" prefWidth="785.0" tableMenuButtonVisible="true">
+            <JFXButton fx:id="btnValider" buttonType="RAISED" layoutX="649.0" layoutY="187.0" onAction="#valider" prefHeight="40.0" prefWidth="122.0" style="-fx-background-color: #1e88e5;" text="Valider" textFill="WHITE" />
+            <TableView fx:id="tableV" layoutX="6.0" layoutY="235.0" prefHeight="237.0" prefWidth="785.0" tableMenuButtonVisible="true">
                <columns>
-                  <TableColumn prefWidth="302.0" text="DESIGNATION" />
-                  <TableColumn minWidth="0.0" prefWidth="213.0" text="QUANTITE" />
-                  <TableColumn minWidth="0.0" prefWidth="272.0" text="NOM CLIENT" />
+                  <TableColumn fx:id="design" prefWidth="190.0" text="DESIGNATION" />
+                  <TableColumn fx:id="qte" minWidth="0.0" prefWidth="175.0" text="QUANTITE" />
+                  <TableColumn fx:id="nomClient" minWidth="0.0" prefWidth="217.0" text="NOM CLIENT" />
+                  <TableColumn fx:id="adrColumn" prefWidth="202.0" text="ADRESSE CLIENT" />
                </columns>
             </TableView>
-            <JFXComboBox fx:id="cbxClient" layoutX="15.0" layoutY="100.0" prefHeight="40.0" prefWidth="509.0" promptText="Liste des clients" />
+            <JFXComboBox fx:id="cbxClient" layoutX="15.0" layoutY="100.0" prefHeight="40.0" prefWidth="221.0" promptText="Liste des clients" />
             <JFXComboBox fx:id="cbxProduit" layoutX="15.0" prefHeight="40.0" prefWidth="509.0" promptText="Liste des produits" />
             <JFXCheckBox fx:id="chxautre" checkedColor="#1976d2" layoutX="564.0" layoutY="128.0" onAction="#oClient" text="Autres" unCheckedColor="#1e88e5" />
+            <JFXComboBox fx:id="cbxClientAdresse" layoutX="278.0" layoutY="100.0" prefHeight="40.0" prefWidth="221.0" promptText="Liste adresses clients" />
          </children>
       </Pane>
    </center>

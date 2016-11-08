@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -62,7 +63,7 @@ public class ApprovController implements BootInitializable{
     @FXML
     private JFXCheckBox chxPlusProduit;
     
-     @FXML
+    @FXML
     private JFXCheckBox chxfour;
      
     @FXML
@@ -111,23 +112,33 @@ public class ApprovController implements BootInitializable{
     
     private ObservableList<Produit> produitsData = FXCollections.observableArrayList();
     
-    
-    
+    private ObservableList<Fournisseur> printList = FXCollections.observableArrayList();
+     
 //fx:controller="com.transporteur.gestionquincallerie.software.controllers.ApprovController"
     @FXML
     void genererLaFiche(ActionEvent event) {
 
     }
     private void clearFields(){
-        chxPlusProduit.setSelected(true);
-        chxfour.setSelected(true);
+        chxPlusProduit.setSelected(false);
+        chxfour.setSelected(false);
+        edtAddrFournisseur.setText("");
         edtAddrFournisseur.setPromptText("telephone fournsseur");
+        edtAddrFournisseur.setDisable(true);
+        adtNomFournisseur.setText("");
         adtNomFournisseur.setPromptText("Nom fournisseur");
+        adtNomFournisseur.setDisable(true);
+        edtPrixAhat.setText("");
         edtPrixAhat.setPromptText("Prix d'achat");
+        edtProduit.setText("");
         edtProduit.setPromptText("Nom du produit");
+        edtProduit.setDisable(true);
+        edtQteProduit.setText("");
         edtQteProduit.setPromptText("Quantite du produit");
-        cbxFournisseur.setPromptText("Listes des produits");
-        cbxProduit.setPromptText("Liste des fournisseurs");
+        cbxFournisseur.setDisable(false);
+        cbxFournisseur.setPromptText("Liste des fournisseurs");
+        cbxProduit.setDisable(false);
+        cbxProduit.setPromptText("Listes des produits");
 
     }
 
@@ -139,6 +150,7 @@ public class ApprovController implements BootInitializable{
                    fo.setAdresseFour(edtAddrFournisseur.getText());
                    fo.setDesignation(edtProduit.getText());
                    fo.setNomFourn(adtNomFournisseur.getText());
+                   fo.setDateFour(new Date());
                    fo.setPrixAchat(Float.parseFloat(edtPrixAhat.getText()));
                    fo.setQte(Integer.parseInt(edtQteProduit.getText()));
                    fo.setStatus(true);
@@ -147,9 +159,11 @@ public class ApprovController implements BootInitializable{
                    p.setQte(0);
                    p.setStatus(true);
               Produit pr =pServ.createProduit(p);
-                   fo.setProduit(pServ.createProduit(p));
+                   fo.setProduit(pr);
               fServ.createFournisseur(fo);
               clearFields();
+              loading();
+              loadTableView();
             }else{
            
            
@@ -161,16 +175,27 @@ public class ApprovController implements BootInitializable{
        }
 
     }
+    
+    public void loadTableView(){
+       printList.add(fo);
+       tableV.getItems().add(fo);
+       idColum.setCellValueFactory(new PropertyValueFactory<Fournisseur, Long>("Id"));
+       designation.setCellValueFactory(new PropertyValueFactory<Fournisseur,String>("designation"));
+       qte.setCellValueFactory(new PropertyValueFactory<Fournisseur,Integer>("qte"));
+       prix.setCellValueFactory(new PropertyValueFactory<Fournisseur,Float>("prixAchat"));
+       fourni.setCellValueFactory(new PropertyValueFactory<Fournisseur,String>("nomFourn"));
+    }
 
     @Override
     public void initConstruct() {
        tableV.getItems().clear();
-       tableV.getItems().add(fo);
+   //    tableV.getItems().add(fo);
        //tableV.getItems().addAll(fServ.findAllFournisseur());
     //    System.out.println("number : "+fServ.findAllFournisseur().size());
     }
     public void setCenterLayoutApprov(Node node){
         this.paneBAprov.setCenter(node);
+        this.paneBAprov.setTop(null);
         this.paneBAprov.autosize();
     
     } 
@@ -206,14 +231,14 @@ public class ApprovController implements BootInitializable{
             edtProduit.setDisable(false);
             cbxProduit.setDisable(true);
             cbxProduit.setValue(null);
-
-    
         }
     }
     
     @FXML
     private void home(ActionEvent event) throws IOException {
        setCenterLayoutApprov(accueil.initView());
+       tableV.getItems().clear();
+       tableV.setItems(null);
     }
 
     @Override
@@ -243,7 +268,7 @@ public class ApprovController implements BootInitializable{
           return result;
     }
     
-    public ObservableList<String> loadNameProd(ObservableList<Produit> list){
+    private ObservableList<String> loadNameProd(ObservableList<Produit> list){
         int i = 0;
         List<String> tab = new  ArrayList<String>() ;
           while (i<list.size()) {
@@ -255,26 +280,23 @@ public class ApprovController implements BootInitializable{
           return result;
     }
     
-    public void loading(){
-      
-        fournisseursData.addAll(fServ.findAllFournisseur());
-        produitsData.addAll(pServ.findAllProduit());
-        tableV.setItems(fournisseursData);
-        cbxFournisseur.setItems(loadNameFour(fournisseursData));
-        cbxProduit.setItems(loadNameProd(produitsData));
-    
+    private void loading(){
+        
+       cbxFournisseur.setItems(null);
+       cbxProduit.setItems(null);
+       fournisseursData.clear();
+       produitsData.clear();
+       
+       fournisseursData.addAll(fServ.findAllFournisseur());
+       produitsData.addAll(pServ.findAllProduit());
+       cbxFournisseur.setItems(loadNameFour(fournisseursData));
+       cbxProduit.setItems(loadNameProd(produitsData));
+       
     }
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loading();
-//       idColum.setCellValueFactory(new PropertyValueFactory<Fournisseur, Long>("Id"));
-//       designation.setCellValueFactory(new PropertyValueFactory<Fournisseur,String>("designation"));
-//       qte.setCellValueFactory(new PropertyValueFactory<Fournisseur,Integer>("qte"));
-//       prix.setCellValueFactory(new PropertyValueFactory<Fournisseur,Float>("prixAchat"));
-//       fourni.setCellValueFactory(new PropertyValueFactory<Fournisseur,String>("nomFourn"));
-        
-       
+        loading(); 
     }
 
     @Override

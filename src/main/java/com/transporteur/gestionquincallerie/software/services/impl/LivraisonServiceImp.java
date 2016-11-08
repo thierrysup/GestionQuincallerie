@@ -34,110 +34,52 @@ public class LivraisonServiceImp implements LivraisonIService{
     
     @Resource
     private ProduitIDao pImp;
-
-    public LivraisonServiceImp() {
-    }
-
-    
-    
-    public LivraisonServiceImp(LivraisonIDao livraisonIDao, ProduitIDao pImp) {
-        this.livraisonIDao = livraisonIDao;
-        this.pImp = pImp;
-    }
-
-    
-    
-    
-    public LivraisonIDao getLivraisonIDao() {
-        return livraisonIDao;
-    }
-
-    public void setLivraisonIDao(LivraisonIDao livraisonIDao) {
-        this.livraisonIDao = livraisonIDao;
-    }
-    
     
     
     @Override
     public Livraison createLivraison(Livraison livraison) throws ServiceException {
-         try {
-             
-             Produit pd = pImp.findById(livraison.getProduit().getId());
-             pd.setQte(pd.getQte() - livraison.getQte());
-             pImp.update(pd); 
-             
-             return livraisonIDao.create(livraison);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(LivraisonServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le create");
-        }
+        Produit pd = pImp.findOne(livraison.getProduit().getId());
+        pd.setQte(pd.getQte() - livraison.getQte());
+        pImp.save(pd);
+        return livraisonIDao.save(livraison);
     }
 
     @Override
     public Livraison findLivraisonById(Long id) throws ServiceException {
-         try {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            return livraisonIDao.findById(id);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(LivraisonServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le findByID");
-        }
+        return livraisonIDao.findOne(id);
     }
 
     @Override
     public Livraison updateLivraison(Livraison livraison) throws ServiceException {
-       try {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-           return livraisonIDao.update(livraison);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(LivraisonServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le Update");
-        }
+        return livraisonIDao.save(livraison);
         
     }
 
     @Override
     public List<Livraison> findAllLivraison() throws ServiceException {
-        try {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            return livraisonIDao.findAll();
-        } catch (DataAccessException ex) {
-            Logger.getLogger(LivraisonServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le findAll");
-        }
+        return livraisonIDao.findAll();
     }
 
     @Override
     public List<Livraison> findLivraisontByName(String name) throws ServiceException {
         List<Livraison> result = new ArrayList<>();
-        try {
-            for (Livraison livraison : livraisonIDao.findAll()) {
-                if((name.isEmpty() || livraison.getNomClient().toLowerCase().contains(name.toLowerCase()))
-                        &&(livraison.isStatus() == true)
-                        )
-                    result.add(livraison);
-            }
-            
-        } catch (DataAccessException ex) {
-            Logger.getLogger(LivraisonServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le findProductByName");
+        for (Livraison livraison : livraisonIDao.findAll()) {
+            if((name.isEmpty() || livraison.getNomClient().toLowerCase().contains(name.toLowerCase()))
+                    &&(livraison.isStatus() == true)
+                    )
+                result.add(livraison);
         }
         return result;
     }
 
     @Override
     public void deleteLivraisontById(Livraison livraison) throws ServiceException {
-        try {
-            Livraison livr = livraisonIDao.findById(livraison.getId());
-            if (livr == null) {
-                throw new ServiceException("Customer with id " + livraison.getId() + " not found");
-            }
-            livr.setStatus(false);
-            livraisonIDao.update(livr);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(LivraisonServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le deleteLivraisonById");
+        Livraison livr = livraisonIDao.findOne(livraison.getId());
+        if (livr == null) {
+            throw new ServiceException("Customer with id " + livraison.getId() + " not found");
         }
+        livr.setStatus(false);
+        livraisonIDao.save(livr);
     }
     
     }

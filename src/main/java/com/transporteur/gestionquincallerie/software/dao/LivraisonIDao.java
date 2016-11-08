@@ -7,12 +7,13 @@ package com.transporteur.gestionquincallerie.software.dao;
 
 import com.douwe.generic.dao.IDao;
 import com.transporteur.gestionquincallerie.software.entity.Livraison;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author thierry
  */
-public interface LivraisonIDao extends IDao<Livraison,Long>{
+public interface LivraisonIDao extends JpaRepository<Livraison,Long>{
     
 }

@@ -28,100 +28,64 @@ public class ProduitServiceImp implements ProduitIService{
 
     @Resource
     private ProduitIDao produitIDao;
-
-    public ProduitServiceImp(ProduitIDao produitIDao) {
-        this.produitIDao = produitIDao;
-    }
-
-    public ProduitServiceImp() {
-    }
-
-    
-    
-    public ProduitIDao getProduitIDao() {
-        return produitIDao;
-    }
-
-    public void setProduitIDao(ProduitIDao produitIDao) {
-        this.produitIDao = produitIDao;
-    }
-    
     
     @Override
     public Produit createProduit(Produit produit) throws ServiceException {
-        try {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            return produitIDao.create(produit);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(ProduitServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le create");
-        }
+        return produitIDao.save(produit);
     }
 
     @Override
     public Produit findProduitById(Long id) throws ServiceException {
-        try {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            return produitIDao.findById(id);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(ProduitServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le findByID");
-        }
+        return produitIDao.findOne(id);
     }
 
     @Override
     public Produit updateProduit(Produit produit) throws ServiceException {
-        try {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-           return produitIDao.update(produit);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(ProduitServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le Update");
-        }
+        return produitIDao.save(produit);
     }
 
     @Override
     public List<Produit> findAllProduit() throws ServiceException {
-         try {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            return produitIDao.findAll();
-        } catch (DataAccessException ex) {
-            Logger.getLogger(ProduitServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le findAll");
-        }
+        return produitIDao.findAll();
     }
 
     @Override
-    public List<Produit> findProduitByName(String name) throws ServiceException {
-          List<Produit> result = new ArrayList<>();
-        try {
+    public List<Produit> findProduitByCriteria(Integer qteMin,Integer qteMax,String name) throws ServiceException {
+      
+        List<Produit> result = new ArrayList<>();
+  
             for (Produit produit : produitIDao.findAll()) {
-                if((name.isEmpty() || produit.getNom().toLowerCase().contains(name.toLowerCase()))
-                        &&(produit.isStatus() == true)
-                        )
+                if((name.isEmpty() == true || produit.getNom().toLowerCase().contains(name.toLowerCase()))
+                        && ((qteMin == 0) || produit.getQte() >= qteMin)
+                        && ((qteMax ==  0) || produit.getQte() <= qteMax)
+                        &&(produit.isStatus()== true))
+                    
                     result.add(produit);
             }
-            
-        } catch (DataAccessException ex) {
-            Logger.getLogger(ProduitServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le findProductByCriteria");
-        }
+           
         return result;
+        
     }
 
     @Override
     public void deleteProduitById(Produit produit) throws ServiceException {
-        try {
-            Produit prod = produitIDao.findById(produit.getId());
-            if (prod == null) {
-                throw new ServiceException("Customer with id " + produit.getId() + " not found");
-            }
-            prod.setStatus(false);
-            produitIDao.update(prod);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(ProduitServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le deleteProductByUser");
+        Produit prod = produitIDao.findOne(produit.getId());
+        if (prod == null) {
+            throw new ServiceException("Customer with id " + produit.getId() + " not found");
         }
+        prod.setStatus(false);
+        produitIDao.save(prod);
+    }
+
+    @Override
+    public Produit findProduitByName(String name) throws SecurityException {
+           for (Produit produit : produitIDao.findAll()) {
+              if((name.isEmpty() || produit.getNom().toLowerCase().contains(name.toLowerCase()))
+                      &&(produit.isStatus() == true)
+                      )
+                  return produit;
+          }
+        return null;
     }
     
 }

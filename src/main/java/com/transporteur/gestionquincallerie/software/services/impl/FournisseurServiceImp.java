@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,107 +34,50 @@ public class FournisseurServiceImp implements FournisseurIService{
     
     @Resource
     private ProduitIDao pImp;
-
-    public FournisseurServiceImp() {
-    }
-
-    
-    
-    public FournisseurServiceImp(FournisseurIDao fournisseurIDao, ProduitIDao pImp) {
-        this.fournisseurIDao = fournisseurIDao;
-        this.pImp = pImp;
-    }
-
-    
-    public FournisseurIDao getFournisseurIDao() {
-        return fournisseurIDao;
-    }
-
-    public void setFournisseurIDao(FournisseurIDao fournisseurIDao) {
-        this.fournisseurIDao = fournisseurIDao;
-    }
-    
-    
     
     @Override
     public Fournisseur createFournisseur(Fournisseur fournisseur) throws ServiceException {
-         try {
-             
-             Produit pd = pImp.findById(fournisseur.getProduit().getId());
-             pd.setQte(pd.getQte() + fournisseur.getQte());
-             pImp.update(pd); 
-             
-            return fournisseurIDao.create(fournisseur);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(FournisseurServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le create");
-        }
+        Produit pd = pImp.findOne(fournisseur.getProduit().getId());
+        pd.setQte(pd.getQte() + fournisseur.getQte());
+        pImp.save(pd);
+        return fournisseurIDao.save(fournisseur);
     }
 
     @Override
     public Fournisseur findFournisseurById(Long id) throws ServiceException {
-        try {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            return fournisseurIDao.findById(id);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(FournisseurServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le findByID");
-        }
+        return fournisseurIDao.findOne(id);
     }
 
     @Override
     public Fournisseur updateFournisseur(Fournisseur fournisseur) throws ServiceException {
-        try {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-           return fournisseurIDao.update(fournisseur);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(FournisseurServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le Update");
-        }
+        return fournisseurIDao.save(fournisseur);
     }
 
     @Override
     public List<Fournisseur> findAllFournisseur() throws ServiceException {
-         try {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            return fournisseurIDao.findAll();
-        } catch (DataAccessException ex) {
-            Logger.getLogger(FournisseurServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le findAll");
-        }
+        return fournisseurIDao.findAll();
     }
 
     @Override
     public List<Fournisseur> findFournisseurtByName(String name) throws ServiceException {
         List<Fournisseur> result = new ArrayList<>();
-        try {
-               for (Fournisseur fournisseur : fournisseurIDao.findAll()) {
-                if((name.isEmpty() || fournisseur.getNomFourn().toLowerCase().contains(name.toLowerCase()))
-                        &&(fournisseur.isStatus() == true)
-                        )
-                    result.add(fournisseur);
-            }
-            
-        } catch (DataAccessException ex) {
-            Logger.getLogger(FournisseurServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le findProductByName");
+        for (Fournisseur fournisseur : fournisseurIDao.findAll()) {
+            if((name.isEmpty() || fournisseur.getNomFourn().toLowerCase().contains(name.toLowerCase()))
+                    &&(fournisseur.isStatus() == true)
+                    )
+                result.add(fournisseur);
         }
         return result;
     }
 
     @Override
     public void deleteFournisseurById(Fournisseur fournisseur) throws ServiceException {
-         try {
-            Fournisseur four = fournisseurIDao.findById(fournisseur.getId());
-            if (four == null) {
-                throw new ServiceException("Customer with id " + fournisseur.getId() + " not found");
-            }
-            four.setStatus(false);
-            fournisseurIDao.update(four);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(FournisseurServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServiceException("imposssible de faire le deleteLivraisonById");
+        Fournisseur four = fournisseurIDao.findOne(fournisseur.getId());
+        if (four == null) {
+            throw new ServiceException("Customer with id " + fournisseur.getId() + " not found");
         }
+        four.setStatus(false);
+        fournisseurIDao.save(four);
     }
   }
     

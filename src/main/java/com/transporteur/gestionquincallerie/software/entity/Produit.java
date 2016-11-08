@@ -28,8 +28,8 @@ public class Produit implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column
-    private String nom ;
+    @Column(unique = true)
+    private String nom;
     
     @Column
     private int qte;

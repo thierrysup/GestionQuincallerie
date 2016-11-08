@@ -19,6 +19,7 @@ public interface ProduitIService {
     public Produit findProduitById(Long id) throws ServiceException;
     public Produit updateProduit(Produit produit) throws ServiceException;
     public List<Produit> findAllProduit() throws ServiceException;
-    public List<Produit> findProduitByName(String name) throws ServiceException;
+    public List<Produit> findProduitByCriteria(Integer qteMin,Integer qteMax,String name) throws ServiceException;
     public void deleteProduitById(Produit produit) throws ServiceException;
+    public Produit findProduitByName(String name)throws SecurityException;
 }
