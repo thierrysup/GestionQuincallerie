@@ -46,7 +46,13 @@ public class ProduitServiceImp implements ProduitIService{
 
     @Override
     public List<Produit> findAllProduit() throws ServiceException {
-        return produitIDao.findAll();
+         List<Produit> result = new ArrayList<>();
+         for (Produit produit : produitIDao.findAll()) {
+             if((produit.isStatus() == true)
+                     )
+                 result.add(produit);
+         }
+        return result;
     }
 
     @Override

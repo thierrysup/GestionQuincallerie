@@ -1,29 +1,40 @@
 package com.transporteur.gestionquincallerie.software.controllers;
 
+import com.douwe.generic.dao.DataAccessException;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.transporteur.gestionquincallerie.software.config.BootInitializable;
 import com.transporteur.gestionquincallerie.software.entity.Fournisseur;
 import com.transporteur.gestionquincallerie.software.entity.Produit;
 import com.transporteur.gestionquincallerie.software.services.impl.FournisseurServiceImp;
 import com.transporteur.gestionquincallerie.software.services.impl.ProduitServiceImp;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -33,8 +44,11 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
+/**
+ *
+ * @author thierry
+ */
 @Component
 public class ApprovController implements BootInitializable{
 
@@ -58,6 +72,8 @@ public class ApprovController implements BootInitializable{
 
     @FXML
     private TableColumn<Fournisseur, String> fourni;
+    
+    public static final String DEST = "ficheApprovisionnement.pdf";
 
      
     @FXML
@@ -89,6 +105,9 @@ public class ApprovController implements BootInitializable{
 
     @FXML
     private JFXComboBox<String> cbxFournisseur;
+    
+    @FXML
+    private JFXComboBox<String> cbxAdresseFournisseur;
 
     @FXML
     private JFXButton btnValider;
@@ -114,11 +133,48 @@ public class ApprovController implements BootInitializable{
     
     private ObservableList<Fournisseur> printList = FXCollections.observableArrayList();
      
-//fx:controller="com.transporteur.gestionquincallerie.software.controllers.ApprovController"
     @FXML
-    void genererLaFiche(ActionEvent event) {
-
+    void genererLaFiche(ActionEvent event) throws DocumentException, FileNotFoundException{
+        File fichier = new File(DEST);
+        Document document = new Document();
+        PdfWriter.getInstance(document, new FileOutputStream(fichier));
+        document.open();
+        //Paragraph p = new Paragraph();
+        String date = String.valueOf(new Date());
+        Paragraph p1 = new Paragraph("Fiche d'approvisionnemt du "+date);
+       
+        p1.setAlignment(Element.ALIGN_CENTER);
+        Font font = new Font(Font.FontFamily.HELVETICA,Float.valueOf(25));
+        p1.setFont(font);
+        
+        PdfPTable table = new PdfPTable(5);
+        table.addCell(new Phrase("Designation"));
+        table.addCell(new Phrase("Quantite"));
+        table.addCell(new Phrase("Prix d'achat"));
+        table.addCell(new Phrase("Fournisseur"));
+        table.addCell(new Phrase("Adresse fournisseur"));
+        ObservableList<Fournisseur> listeApprovs = this.printList;
+        for(Fournisseur fournisseur: listeApprovs){
+            table.addCell(new Phrase(fournisseur.getDesignation()));
+            table.addCell(new Phrase(String.valueOf(fournisseur.getQte())));
+            table.addCell(new Phrase(String.valueOf(fournisseur.getPrixAchat())));
+            table.addCell(new Phrase(fournisseur.getNomFourn()));
+            table.addCell(new Phrase(fournisseur.getAdresseFour()));
+        }
+        document.addTitle("Approvisionnement");
+        
+        
+//        p.setAlignment(Element.ALIGN_TOP);
+//        p.setFont(font);
+//        p.add(date);
+//        document.add(p);
+        document.add(p1);
+        document.add(new Paragraph("\n"));
+        document.add(table);
+        document.close();    
     }
+    
+    
     private void clearFields(){
         chxPlusProduit.setSelected(false);
         chxfour.setSelected(false);
@@ -137,13 +193,15 @@ public class ApprovController implements BootInitializable{
         edtQteProduit.setPromptText("Quantite du produit");
         cbxFournisseur.setDisable(false);
         cbxFournisseur.setPromptText("Liste des fournisseurs");
+        cbxAdresseFournisseur.setDisable(false);
+        cbxAdresseFournisseur.setPromptText("Adresse fournisseur");
         cbxProduit.setDisable(false);
         cbxProduit.setPromptText("Listes des produits");
 
     }
 
     @FXML
-    void valider(ActionEvent event) {
+    private void valider(ActionEvent event) {
        if(chxPlusProduit.isSelected()){
            if(chxfour.isSelected()){
              fo = new Fournisseur();
@@ -160,20 +218,49 @@ public class ApprovController implements BootInitializable{
                    p.setStatus(true);
               Produit pr =pServ.createProduit(p);
                    fo.setProduit(pr);
-              fServ.createFournisseur(fo);
+            }else{
+             fo = new Fournisseur();
+                   fo.setAdresseFour(cbxAdresseFournisseur.getValue());
+                   fo.setDesignation(edtProduit.getText());
+                   fo.setNomFourn(cbxFournisseur.getValue());
+                   fo.setDateFour(new Date());
+                   fo.setPrixAchat(Float.parseFloat(edtPrixAhat.getText()));
+                   fo.setQte(Integer.parseInt(edtQteProduit.getText()));
+                   fo.setStatus(true);
+              Produit p = new Produit();
+                   p.setNom(edtProduit.getText());
+                   p.setQte(0);
+                   p.setStatus(true);
+              Produit pr =pServ.createProduit(p);
+                   fo.setProduit(pr);
+            }
+       }else{
+            if(chxfour.isSelected()){
+             fo = new Fournisseur();
+                   fo.setAdresseFour(edtAddrFournisseur.getText());
+                   fo.setDesignation(cbxProduit.getValue());
+                   fo.setNomFourn(adtNomFournisseur.getText());
+                   fo.setDateFour(new Date());
+                   fo.setPrixAchat(Float.parseFloat(edtPrixAhat.getText()));
+                   fo.setQte(Integer.parseInt(edtQteProduit.getText()));
+                   fo.setStatus(true);
+                   fo.setProduit(pServ.findProduitByName(cbxProduit.getValue()));
+            }else{
+             fo = new Fournisseur();
+                   fo.setAdresseFour(cbxAdresseFournisseur.getValue());
+                   fo.setDesignation(cbxProduit.getValue());
+                   fo.setNomFourn(cbxFournisseur.getValue());
+                   fo.setDateFour(new Date());
+                   fo.setPrixAchat(Float.parseFloat(edtPrixAhat.getText()));
+                   fo.setQte(Integer.parseInt(edtQteProduit.getText()));
+                   fo.setStatus(true);
+                   fo.setProduit(pServ.findProduitByName(cbxProduit.getValue()));
+            } 
+       }
+        fServ.createFournisseur(fo);
               clearFields();
               loading();
               loadTableView();
-            }else{
-           
-           
-           
-            }
-       
-       
-       
-       }
-
     }
     
     public void loadTableView(){
@@ -189,9 +276,6 @@ public class ApprovController implements BootInitializable{
     @Override
     public void initConstruct() {
        tableV.getItems().clear();
-   //    tableV.getItems().add(fo);
-       //tableV.getItems().addAll(fServ.findAllFournisseur());
-    //    System.out.println("number : "+fServ.findAllFournisseur().size());
     }
     public void setCenterLayoutApprov(Node node){
         this.paneBAprov.setCenter(node);
@@ -212,12 +296,17 @@ public class ApprovController implements BootInitializable{
             adtNomFournisseur.setDisable(true);
             adtNomFournisseur.setText("");
             cbxFournisseur.setDisable(false);
+            cbxFournisseur.setPromptText("Liste des fournisseurs");
+            cbxAdresseFournisseur.setDisable(false);
+            cbxAdresseFournisseur.setPromptText("Adresse fournisseur");
         }else{
            edtAddrFournisseur.setDisable(false);
-           adtNomFournisseur.setDisable(false);
+           adtNomFournisseur.setDisable(false);;
+           cbxFournisseur.setPromptText("Liste des fournisseurs");
            cbxFournisseur.setDisable(true);
-           cbxFournisseur.setValue(null);
-    
+           cbxAdresseFournisseur.setPromptText("Adresse fournisseur");
+           cbxAdresseFournisseur.setDisable(true);
+          // cbxFournisseur.setValue(null);
         }
     }
     
@@ -225,12 +314,14 @@ public class ApprovController implements BootInitializable{
     void oProduit(ActionEvent event) {
         if(!chxPlusProduit.isSelected()){
             edtProduit.setDisable(true);
-            edtProduit.setText("");
+            edtProduit.setPromptText("Liste des Produits");
             cbxProduit.setDisable(false);
         }else{
             edtProduit.setDisable(false);
+            cbxProduit.setPromptText("Liste des Produits");
             cbxProduit.setDisable(true);
-            cbxProduit.setValue(null);
+            
+           // cbxProduit.setValue(null);
         }
     }
     
@@ -257,10 +348,46 @@ public class ApprovController implements BootInitializable{
     }
     
     public ObservableList<String> loadNameFour(ObservableList<Fournisseur> list){
-        int i = 0;
+        int i = 0,j=0;
+        boolean insert =true;
         List<String> tab = new  ArrayList<String>() ;
           while (i<list.size()) {
-            tab.add(list.get(i).getNomFourn());
+           for(j=0;(j< i)&&(j<tab.size());j++){
+              if(tab.get(j).equals(list.get(i).getNomFourn())){
+                 insert = false;
+                 break;
+              }else{
+                 insert =true;
+              }
+           }
+           if(i== 0 || insert == true){
+            tab.add(list.get(i).getNomFourn()); 
+           }
+            i++;
+        }
+        ObservableList<String> result = FXCollections.observableArrayList();
+          result.addAll(tab);
+          return result;
+    }
+    
+    public ObservableList<String> loadAdressFour(ObservableList<Fournisseur> list){
+        int i = 0,j=0;
+        boolean insert = true;
+        List<String> tab = new  ArrayList<String>() ;
+          while (i<list.size()) {
+            for(j=0;(j< i)&&(j<tab.size());j++){
+              if(tab.get(j).equals(list.get(i).getAdresseFour())){
+                 insert = false;
+                 break;
+              }else{
+                 insert =true;
+              }
+           }
+            
+           if(i== 0 || insert == true){
+            tab.add(list.get(i).getAdresseFour());
+           }
+            
             i++;
         }
         ObservableList<String> result = FXCollections.observableArrayList();
@@ -269,10 +396,21 @@ public class ApprovController implements BootInitializable{
     }
     
     private ObservableList<String> loadNameProd(ObservableList<Produit> list){
-        int i = 0;
+        int i = 0,j=0;
+        boolean insert=true;
         List<String> tab = new  ArrayList<String>() ;
           while (i<list.size()) {
-            tab.add(list.get(i).getNom());
+              for(j=0;(j< i)&&(j<tab.size());j++){
+              if(tab.get(j).equals(list.get(i).getNom())){
+                 insert = false;
+                 break;
+              }else{
+                 insert =true;
+              }
+           }          
+          if(i== 0 || insert == true){
+              tab.add(list.get(i).getNom());
+           }    
             i++;
         }
         ObservableList<String> result = FXCollections.observableArrayList();
@@ -284,12 +422,14 @@ public class ApprovController implements BootInitializable{
         
        cbxFournisseur.setItems(null);
        cbxProduit.setItems(null);
+       cbxAdresseFournisseur.setItems(null);
        fournisseursData.clear();
        produitsData.clear();
        
        fournisseursData.addAll(fServ.findAllFournisseur());
        produitsData.addAll(pServ.findAllProduit());
        cbxFournisseur.setItems(loadNameFour(fournisseursData));
+       cbxAdresseFournisseur.setItems(loadAdressFour(fournisseursData));
        cbxProduit.setItems(loadNameProd(produitsData));
        
     }

@@ -29,6 +29,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+/**
+ *
+ * @author thierry
+ */
+
 @Component
 public class StockController implements BootInitializable{
 
@@ -88,7 +93,7 @@ public class StockController implements BootInitializable{
     }
 
     @FXML
-    void rechercher(ActionEvent event) {
+   private void rechercher(ActionEvent event) {
           printList.clear();
           if((edtQMinProduit.getText().length() != 0)&&(edtQMaxProduit.getText().length() != 0)){
            printList.addAll(pServ.findProduitByCriteria(Integer.parseInt(edtQMinProduit.getText()),Integer.parseInt(edtQMaxProduit.getText()), edtNomProduit.getText())) ;

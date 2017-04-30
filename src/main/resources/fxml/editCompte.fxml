@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="376.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.transporteur.gestionquincallerie.software.controllers.EditEmployeController">
+   <children>
+      <Pane layoutY="1.0" prefHeight="50.0" prefWidth="640.0" style="-fx-background-color: #1e88e5;">
+         <children>
+            <Label layoutX="14.0" layoutY="18.0" text="EDITION COMPTE" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="20.0" />
+               </font>
+            </Label>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Pane>
+      <JFXTextField fx:id="edtLoginEmp" editable="false" focusColor="#1976d2" labelFloat="true" layoutX="15.0" layoutY="91.0" maxWidth="490.0" minWidth="249.0" prefHeight="31.0" prefWidth="290.0" promptText="Login" unFocusColor="#1e88e5" />
+      <JFXTextField fx:id="edtNomEmp" editable="false" focusColor="#1976d2" labelFloat="true" layoutX="13.0" layoutY="168.0" maxWidth="490.0" minWidth="249.0" prefHeight="31.0" prefWidth="290.0" promptText="Nom utilisateur" unFocusColor="#1e88e5" />
+      <JFXTextField fx:id="edtAdresEmp" editable="false" focusColor="#1976d2" labelFloat="true" layoutX="320.0" layoutY="91.0" maxWidth="490.0" minWidth="249.0" prefHeight="31.0" prefWidth="290.0" promptText="Addresse" unFocusColor="#1e88e5" />
+      <JFXComboBox fx:id="cbxEmp" layoutX="325.0" layoutY="171.0" prefHeight="26.0" prefWidth="280.0" promptText="Role" />
+      <JFXButton fx:id="btnMOdi" buttonType="RAISED" layoutX="342.0" layoutY="329.0" onAction="#setEmploye" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Modifier" textFill="#f8f5f5" />
+      <JFXButton fx:id="btnAnnuler" buttonType="RAISED" layoutX="496.0" layoutY="329.0" onAction="#exitEditEmp" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Annuler" textFill="#f8f5f5" />
+   </children>
+</AnchorPane>

@@ -6,6 +6,7 @@
 package com.transporteur.gestionquincallerie.software.services;
 
 import com.transporteur.gestionquincallerie.software.entity.Fournisseur;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.service.spi.ServiceException;
 
@@ -20,6 +21,7 @@ public interface FournisseurIService {
     public Fournisseur updateFournisseur(Fournisseur fournisseur) throws ServiceException;
     public List<Fournisseur> findAllFournisseur() throws ServiceException;
     public List<Fournisseur> findFournisseurtByName(String name) throws ServiceException;
+    public List<Fournisseur> findFournisseurtByCriteria(int qteMin,int qteMax,String nomFour,Date debut,Date fin) throws ServiceException;
     public void deleteFournisseurById(Fournisseur fournisseur) throws ServiceException;
 
 }

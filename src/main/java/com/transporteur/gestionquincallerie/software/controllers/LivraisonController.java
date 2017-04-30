@@ -35,7 +35,11 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
+
+/**
+ *
+ * @author thierry
+ */
 
 @Component
 public class LivraisonController implements BootInitializable{
@@ -131,10 +135,22 @@ public class LivraisonController implements BootInitializable{
     }
     
     private ObservableList<String> loadNameLivr(ObservableList<Livraison> list){
-        int i = 0;
+        int i = 0, j = 0;
+        boolean insert =true;
         List<String> tab = new  ArrayList<String>() ;
-          while (i<list.size()) {
+          while (i<list.size()) {     
+             for(j=0;(j< i)&&(j<tab.size());j++){
+              if(tab.get(j).equals(list.get(i).getNomClient())){
+                 insert = false;
+                 break;
+              }else{
+                 insert =true;
+              }
+           }
+            
+           if(i== 0 || insert == true){
             tab.add(list.get(i).getNomClient());
+           }
             i++;
         }
         ObservableList<String> result = FXCollections.observableArrayList();
@@ -143,10 +159,22 @@ public class LivraisonController implements BootInitializable{
     }
     
     private ObservableList<String> loadAdresseLivr(ObservableList<Livraison> list){
-        int i = 0;
+        int i = 0,j=0;
+        boolean insert = true;
         List<String> tab = new  ArrayList<String>() ;
           while (i<list.size()) {
+            for(j=0;(j< i)&&(j<tab.size());j++){
+              if(tab.get(j).equals(list.get(i).getAdresseClient())){
+                 insert = false;
+                 break;
+              }else{
+                 insert =true;
+              }
+           }
+            
+           if(i== 0 || insert == true){
             tab.add(list.get(i).getAdresseClient());
+           }
             i++;
         }
         ObservableList<String> result = FXCollections.observableArrayList();
@@ -155,10 +183,23 @@ public class LivraisonController implements BootInitializable{
     }
     
     private ObservableList<String> loadNameProd(ObservableList<Produit> list){
-        int i = 0;
+        int i = 0,j=0;
+        boolean insert = true;
         List<String> tab = new  ArrayList<String>() ;
           while (i<list.size()) {
-            tab.add(list.get(i).getNom());
+              
+            for(j=0;(j< i)&&(j<tab.size());j++){
+              if(tab.get(j).equals(list.get(i).getNom())){
+                 insert = false;
+                 break;
+              }else{
+                 insert =true;
+              }
+           }
+            
+           if(i== 0 || insert == true){
+             tab.add(list.get(i).getNom());
+           }
             i++;
         }
         ObservableList<String> result = FXCollections.observableArrayList();
@@ -171,41 +212,40 @@ public class LivraisonController implements BootInitializable{
         
        cbxProduit.setItems(null);
        cbxClient.setItems(null);
+       cbxClientAdresse.setItems(null);
        livraisonsData.clear();
        produitsData.clear();
        
        livraisonsData.addAll(lServ.findAllLivraison());
        produitsData.addAll(pServ.findAllProduit());
        cbxClient.setItems(loadNameLivr(livraisonsData));
-       cbxClientAdresse.setItems(loadNameLivr(livraisonsData));
+       cbxClientAdresse.setItems( loadAdresseLivr(livraisonsData));
        cbxProduit.setItems(loadNameProd(produitsData));
     }
     
     
     
     @FXML
-    void valider(ActionEvent event) {
+    private void valider(ActionEvent event) {
+        
+        livr = new Livraison();
+        livr.setDateLivre(new Date());
+        livr.setDesignation(cbxProduit.getValue());
+        livr.setQte(Integer.parseInt(edtQte.getText()));
+        livr.setStatus(true);
+        livr.setProduit(pServ.findProduitByName(String.valueOf(cbxProduit.getValue()))); 
         if(chxautre.isSelected()){
-          
-             livr = new Livraison();
                    livr.setNomClient(edtNom.getText());
-                   livr.setAdresseClient(edtAdresse.getText());
-                   livr.setDateLivre(new Date());
-                   livr.setDesignation(cbxProduit.getValue());
-                   livr.setQte(Integer.parseInt(edtQte.getText()));
-                   livr.setStatus(true);
-                   livr.setProduit(pServ.findProduitByName(String.valueOf(cbxProduit.getValue())));           
-              lServ.createLivraison(livr);
+                   livr.setAdresseClient(edtAdresse.getText());                   
+       }else{     
+                   livr.setNomClient(cbxClient.getValue());
+                   livr.setAdresseClient(cbxClientAdresse.getValue());         
+        }
+         lServ.createLivraison(livr);
               clearFields();
               loading();
               loadTableView();
-       }else{
         
-        
-        
-        
-        
-        }
     }
      public void setCenterLayoutLivr(Node node) {
         this.paneBLivr.setCenter(node);
@@ -221,10 +261,15 @@ public class LivraisonController implements BootInitializable{
             edtAdresse.setDisable(true);
             edtAdresse.setText("");
             cbxClient.setDisable(false);
+            cbxClientAdresse.setDisable(false);
         }else{
             edtNom.setDisable(false);
             edtAdresse.setDisable(false);
+            cbxClient.setPromptText("Liste des clients");
             cbxClient.setDisable(true);
+            cbxClientAdresse.setPromptText("Liste adresses clients");
+            cbxClientAdresse.setDisable(true);
+            
         }
     }
     

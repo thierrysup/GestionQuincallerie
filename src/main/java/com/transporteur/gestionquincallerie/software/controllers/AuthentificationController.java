@@ -29,7 +29,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-
+/**
+ *
+ * @author thierry
+ */
 @Component
 public class AuthentificationController implements BootInitializable{
 
@@ -57,6 +60,8 @@ public class AuthentificationController implements BootInitializable{
     @Autowired
     private AccueilController accueil;
     
+    public static Employe emp;
+    
     public void setCenterLayoutLogin(Node node){
       this.panLog.setCenter(node);
       this.panLog.autosize();
@@ -64,19 +69,17 @@ public class AuthentificationController implements BootInitializable{
     
     @FXML
     void connexion(ActionEvent event) throws IOException {
-//       String pass = String.valueOf(edtmdp.getText().hashCode());
-//       if((!edtlogin.getText().isEmpty())&&(!edtmdp.getText().isEmpty())){
-//           Employe emp = empserv.findEmployeByLogin(edtlogin.getText());
-//           if((emp != null)&&(emp.getPassWord().equals(pass))){
-//             acc.initView();
-//           }
-//       } now we are waitting Employe Controller and Fxml to introduise.
-            if((edtlogin.getText().equals("root"))&&(edtmdp.getText().equals("root"))){
-               setCenterLayoutLogin(accueil.initView());
+      
+       if((!edtlogin.getText().isEmpty())&&(!edtmdp.getText().isEmpty())){
+           emp = empserv.findEmployeByLogin(edtlogin.getText());
+            String pass = String.valueOf(edtmdp.getText().hashCode());
+           if((emp != null)&&(emp.getPassWord().equals(pass))){
+            setCenterLayoutLogin(accueil.initView());
                accueil.initConstruct();
-            }else{
-                System.out.println("error of login or password "+edtlogin.getText());
-            }
+           }else{
+             System.out.println("error password or login ");
+          }
+       } 
     }
 
     @FXML
@@ -97,7 +100,7 @@ public class AuthentificationController implements BootInitializable{
     @Override
     public void stage(Stage primaryStage) {
     }
- //fx:controller="com.transporteur.gestionquincallerie.software.controllers.AuthentificationController"
+
     @Override
     public Node initView(){
         try {

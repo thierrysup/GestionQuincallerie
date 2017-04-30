@@ -12,6 +12,7 @@ import com.transporteur.gestionquincallerie.software.entity.Fournisseur;
 import com.transporteur.gestionquincallerie.software.entity.Produit;
 import com.transporteur.gestionquincallerie.software.services.FournisseurIService;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,7 +56,13 @@ public class FournisseurServiceImp implements FournisseurIService{
 
     @Override
     public List<Fournisseur> findAllFournisseur() throws ServiceException {
-        return fournisseurIDao.findAll();
+        List<Fournisseur> result = new ArrayList<>();
+         for (Fournisseur fournisseur : fournisseurIDao.findAll()) {
+             if((fournisseur.isStatus() == true)
+                     )
+                 result.add(fournisseur);
+         }
+        return result;
     }
 
     @Override
@@ -78,6 +85,21 @@ public class FournisseurServiceImp implements FournisseurIService{
         }
         four.setStatus(false);
         fournisseurIDao.save(four);
+    }
+
+    @Override
+    public List<Fournisseur> findFournisseurtByCriteria(int qteMin, int qteMax, String nomFour, Date debut, Date fin) throws ServiceException {
+        List<Fournisseur> result = new ArrayList<>();
+            
+            for (Fournisseur fournisseur : fournisseurIDao.findAll()) {
+                if((qteMin == 0 || fournisseur.getQte() >= qteMin )
+                        && (qteMax == 0 || fournisseur.getQte() <= qteMax)
+                        && (( nomFour.isEmpty() == true) || fournisseur.getNomFourn().toLowerCase().contains(nomFour.toLowerCase()))
+                        && ((debut == null) || fournisseur.getDateFour().after(debut))
+                        && ((fin == null) || fournisseur.getDateFour().before(fin))&&(fournisseur.isStatus() == true))
+                    result.add(fournisseur);
+            }
+        return result;
     }
   }
     

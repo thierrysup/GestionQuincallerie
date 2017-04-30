@@ -34,8 +34,8 @@ public class Employe implements Serializable{
     private String login;
     
     @JsonIgnore
-    @Size(min = 60, max = 60)
-    @Column(name = "password_hash",length = 60)
+    @Size(min = 4, max = 60)
+    @Column(name = "password_hash")
     private String passWord;
     
     @Column

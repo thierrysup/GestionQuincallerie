@@ -11,7 +11,9 @@ import com.transporteur.gestionquincallerie.software.dao.ProduitIDao;
 import com.transporteur.gestionquincallerie.software.entity.Livraison;
 import com.transporteur.gestionquincallerie.software.entity.Produit;
 import com.transporteur.gestionquincallerie.software.services.LivraisonIService;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,9 +41,12 @@ public class LivraisonServiceImp implements LivraisonIService{
     @Override
     public Livraison createLivraison(Livraison livraison) throws ServiceException {
         Produit pd = pImp.findOne(livraison.getProduit().getId());
-        pd.setQte(pd.getQte() - livraison.getQte());
-        pImp.save(pd);
-        return livraisonIDao.save(livraison);
+        if(pd.getQte() >= livraison.getQte()){
+          pd.setQte(pd.getQte() - livraison.getQte());
+          pImp.save(pd);
+         return livraisonIDao.save(livraison);
+        }else 
+          return null;
     }
 
     @Override
@@ -57,7 +62,13 @@ public class LivraisonServiceImp implements LivraisonIService{
 
     @Override
     public List<Livraison> findAllLivraison() throws ServiceException {
-        return livraisonIDao.findAll();
+        List<Livraison> result = new ArrayList<>();
+         for (Livraison livraison : livraisonIDao.findAll()) {
+             if((livraison.isStatus() == true)
+                     )
+                 result.add(livraison);
+         }
+        return result;
     }
 
     @Override
@@ -80,6 +91,20 @@ public class LivraisonServiceImp implements LivraisonIService{
         }
         livr.setStatus(false);
         livraisonIDao.save(livr);
+    }
+    
+     public List<Livraison> findLivraisonByCriteria(int qteMin,int qteMax,String nomProduit, Date debut,Date fin) throws ServiceException {        
+            List<Livraison> result = new ArrayList<>();
+            
+            for (Livraison livraison : livraisonIDao.findAll()) {
+                if((qteMin == 0 || livraison.getQte() >= qteMin )
+                        && (qteMax == 0 || livraison.getQte() <= qteMax)
+                        && (( nomProduit.isEmpty() == true) || livraison.getDesignation().toLowerCase().contains(nomProduit.toLowerCase()))
+                        && ((debut == null) || livraison.getDateLivre().after(debut))
+                        && ((fin == null) || livraison.getDateLivre().before(fin))&&(livraison.isStatus() == true))
+                    result.add(livraison);
+            }
+        return result;
     }
     
     }

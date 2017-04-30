@@ -3,6 +3,8 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -24,7 +26,7 @@
                         <DropShadow blurType="GAUSSIAN" color="#6d4c41" />
                      </effect>
                   </ImageView>
-                  <Label fx:id="lblSlogan" layoutX="40.0" layoutY="426.0" text="La vision nouvelle sur le commercer">
+                  <Label fx:id="lblSlogan" layoutX="40.0" layoutY="426.0" text="La vision nouvelle sur le commerce">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -106,6 +108,20 @@
                   <Label layoutX="14.0" layoutY="18.0" text="ACCUEIL" textFill="WHITE">
                      <font>
                         <Font name="System Bold Italic" size="20.0" />
+                     </font>
+                  </Label>
+                  <SplitMenuButton fx:id="sMBConfig" layoutX="670.0" layoutY="11.0" mnemonicParsing="false" onAction="#paramConfig" text="Paramètres" textAlignment="CENTER">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Configuration" />
+                        <MenuItem mnemonicParsing="false" text="Déconnexion" />
+                     </items>
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" color="WHITE" />
+                     </effect>
+                  </SplitMenuButton>
+                  <Label fx:id="labelUser" layoutX="445.0" layoutY="15.0" text="M. utilisateur" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
                      </font>
                   </Label>
                </children>

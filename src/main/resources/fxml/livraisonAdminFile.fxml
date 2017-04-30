@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="paneBStock" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <Pane BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton fx:id="btnRecherche" buttonType="RAISED" layoutX="669.0" layoutY="30.0" onAction="#rechercher" prefHeight="38.0" prefWidth="116.0" style="-fx-background-color: #1e88e5;" text="Rechercher" textFill="WHITE" />
+            <JFXButton fx:id="btnImprimer" buttonType="RAISED" layoutX="669.0" layoutY="484.0" onAction="#imprimer" prefHeight="38.0" prefWidth="116.0" style="-fx-background-color: #1e88e5;" text="Imprimer" textFill="WHITE" />
+            <TableView fx:id="tableV" layoutX="15.0" layoutY="86.0" prefHeight="387.0" prefWidth="770.0">
+              <columns>
+                <TableColumn fx:id="idColumn" prefWidth="54.0" text="ID" />
+                <TableColumn fx:id="clientColumn" prefWidth="79.0" text="CLIENT" />
+                  <TableColumn fx:id="adresColumn" prefWidth="148.0" text="ADRESSE CLIENT" />
+                  <TableColumn fx:id="prodColumn1" prefWidth="116.0" text="PRODUIT" />
+                  <TableColumn fx:id="qteColumn" minWidth="0.0" prefWidth="81.0" text="QUANTITE" />
+                  <TableColumn fx:id="dateColumn" minWidth="1.0" prefWidth="136.0" text="DATE LIVRAISON" />
+                  <TableColumn fx:id="actionColumn" minWidth="1.0" prefWidth="167.0" text="ACTION" />
+              </columns>
+            </TableView>
+            <HBox layoutX="15.0" layoutY="33.0">
+               <children>
+                  <JFXTextField fx:id="edtQMinProduit" focusColor="#1976d2" labelFloat="true" maxWidth="378.0" minWidth="117.0" prefHeight="32.0" prefWidth="136.0" promptText="Quantité Minimale" unFocusColor="#1e88e5" />
+                  <JFXTextField fx:id="edtQMaxProduit" focusColor="#1976d2" labelFloat="true" maxWidth="378.0" minWidth="136.0" prefHeight="32.0" prefWidth="136.0" promptText="Quantité Maximale" unFocusColor="#1e88e5" />
+                  <JFXTextField fx:id="edtNomProduit" focusColor="#1976d2" labelFloat="true" maxWidth="378.0" minWidth="132.0" prefHeight="32.0" prefWidth="132.0" promptText="Nom produit" unFocusColor="#1e88e5" />
+                  <JFXDatePicker fx:id="edtDateTo" defaultColor="#1976d2" prefHeight="32.0" prefWidth="131.0" promptText="To" />
+                  <JFXDatePicker fx:id="edtDateFrom" defaultColor="#1976d2" prefHeight="32.0" prefWidth="114.0" promptText="From" />
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+   </center>
+   <top>
+      <Pane prefHeight="50.0" prefWidth="800.0" style="-fx-background-color: #1e88e5;" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="14.0" layoutY="18.0" text="LIVRAISON" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="20.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="ibtn" fitHeight="38.0" fitWidth="44.0" layoutX="752.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/House-i.png" />
+               </image>
+            </ImageView>
+            <JFXButton layoutX="748.5" layoutY="6.0" onAction="#home" prefHeight="38.0" prefWidth="44.0" />
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+         <BorderPane.margin>
+            <Insets bottom="6.0" />
+         </BorderPane.margin>
+      </Pane>
+   </top>
+</BorderPane>

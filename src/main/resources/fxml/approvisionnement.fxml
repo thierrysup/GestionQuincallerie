@@ -26,7 +26,7 @@
                   <JFXCheckBox fx:id="chxfour" checkedColor="#1976d2" layoutX="602.0" layoutY="101.0" onAction="#oFournisseur" text="Autres" unCheckedColor="#1e88e5" />
                   <JFXTextField fx:id="edtProduit" disable="true" focusColor="#1976d2" labelFloat="true" layoutX="5.0" layoutY="55.0" maxWidth="559.0" minWidth="559.0" prefHeight="31.0" prefWidth="559.0" promptText="Nom du produit" unFocusColor="#1e88e5" />
                   <JFXCheckBox fx:id="chxPlusProduit" checkedColor="#1976d2" layoutX="602.0" layoutY="9.0" onAction="#oProduit" prefHeight="25.0" prefWidth="79.0" text="Autres" unCheckedColor="#1e88e5" />
-                  <JFXButton fx:id="genererFiche" buttonType="RAISED" layoutX="649.0" layoutY="494.0" onMouseClicked="#genererLaFiche" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Generer la fiche" textFill="#f5f2f2">
+                  <JFXButton fx:id="genererFiche" buttonType="RAISED" layoutX="649.0" layoutY="494.0" onAction="#genererLaFiche" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Generer la fiche" textFill="#f5f2f2">
                      <effect>
                         <DropShadow blurType="GAUSSIAN" />
                      </effect>
@@ -50,7 +50,8 @@
                         <Insets bottom="2.0" left="3.0" right="1.0" top="1.0" />
                      </padding>
                   </TableView>
-                  <JFXComboBox fx:id="cbxFournisseur" layoutX="5.0" layoutY="94.0" prefHeight="31.0" prefWidth="559.0" promptText="Liste des fournisseurs" />
+                  <JFXComboBox fx:id="cbxFournisseur" layoutX="5.0" layoutY="94.0" prefHeight="31.0" prefWidth="243.0" promptText="Liste des fournisseurs" />
+                  <JFXComboBox fx:id="cbxAdresseFournisseur" layoutX="279.0" layoutY="94.0" prefHeight="31.0" prefWidth="243.0" promptText="Adresse fourniseur" />
                   <JFXTextField fx:id="edtQteProduit" focusColor="#1976d2" labelFloat="true" layoutX="6.0" layoutY="207.0" maxWidth="268.0" minWidth="268.0" prefHeight="31.0" prefWidth="268.0" promptText="Quantite du produit" unFocusColor="#1e88e5" />
                </children>
             </Pane>

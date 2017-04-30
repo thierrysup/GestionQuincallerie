@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="376.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.transporteur.gestionquincallerie.software.controllers.EditLivraisonAdminController">
+   <children>
+      <Pane layoutY="1.0" prefHeight="50.0" prefWidth="640.0" style="-fx-background-color: #1e88e5;">
+         <children>
+            <Label layoutX="14.0" layoutY="18.0" text="EDITION LIVRAISON" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="20.0" />
+               </font>
+            </Label>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Pane>
+      <JFXTextField fx:id="edtNomClient" focusColor="#1976d2" labelFloat="true" layoutX="47.0" layoutY="106.0" maxWidth="490.0" minWidth="242.0" prefHeight="32.0" prefWidth="242.0" promptText="Nom Client" unFocusColor="#1e88e5" />
+      <JFXTextField fx:id="edtQteLivraison" focusColor="#1976d2" labelFloat="true" layoutX="52.0" layoutY="203.0" maxWidth="490.0" minWidth="232.0" prefHeight="32.0" prefWidth="232.0" promptText="Quantité" unFocusColor="#1e88e5" />
+      <JFXTextField fx:id="edtAdresseClient" focusColor="#1976d2" labelFloat="true" layoutX="342.0" layoutY="106.0" maxWidth="490.0" minWidth="232.0" prefHeight="32.0" prefWidth="232.0" promptText="Adresse Client" unFocusColor="#1e88e5" />
+      <JFXButton fx:id="btnMOdi" buttonType="RAISED" layoutX="342.0" layoutY="329.0" onAction="#setLivraison" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Modifier" textFill="#f8f5f5" />
+      <JFXButton fx:id="btnAnnuler" buttonType="RAISED" layoutX="496.0" layoutY="329.0" onAction="#exitEditLivraison" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Annuler" textFill="#f8f5f5" />
+      <JFXTextField fx:id="edtNomProduit" editable="false" focusColor="#1976d2" labelFloat="true" layoutX="342.0" layoutY="209.0" maxWidth="490.0" minWidth="232.0" prefHeight="32.0" prefWidth="232.0" promptText="Nom produit" unFocusColor="#1e88e5" />
+   </children>
+</AnchorPane>

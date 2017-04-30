@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.transporteur.gestionquincallerie.software.controllers.ConfigurationController">
+   <children>
+      <Pane layoutX="-1.0" prefHeight="50.0" prefWidth="640.0" style="-fx-background-color: #1e88e5;">
+         <children>
+            <Label layoutX="14.0" layoutY="18.0" text="CONFIGURATION" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="labUser" layoutX="510.0" layoutY="13.0" prefHeight="25.0" prefWidth="100.0" text="M. Utilisateur" textFill="WHITE" />
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Pane>
+      <JFXTextField fx:id="edtLogin" focusColor="#1976d2" labelFloat="true" layoutX="70.0" layoutY="123.0" maxWidth="490.0" minWidth="249.0" prefHeight="31.0" prefWidth="490.0" promptText="Login" unFocusColor="#1e88e5" />
+      <JFXTextField fx:id="edtAdresse" focusColor="#1976d2" labelFloat="true" layoutX="70.0" layoutY="167.0" maxWidth="490.0" minWidth="249.0" prefHeight="31.0" prefWidth="490.0" promptText="Adresse" unFocusColor="#1e88e5" />
+      <JFXPasswordField fx:id="edtPassFirst" focusColor="#1976d2" labelFloat="true" layoutX="72.0" layoutY="218.0" maxWidth="490.0" minWidth="490.0" prefHeight="31.0" prefWidth="490.0" promptText="Mot de passe" unFocusColor="#1e88e5" />
+      <JFXPasswordField fx:id="edtPassSecond" focusColor="#1976d2" labelFloat="true" layoutX="72.0" layoutY="280.0" maxWidth="490.0" minWidth="490.0" prefHeight="31.0" prefWidth="490.0" promptText="Confirmation mot de passe" unFocusColor="#1e88e5" />
+      <JFXButton fx:id="btnValider" buttonType="RAISED" layoutX="257.0" layoutY="362.0" onAction="#valider" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Mise à jour" textFill="#f8f5f5" />
+      <JFXButton fx:id="btnAnnuler" buttonType="RAISED" layoutX="434.0" layoutY="361.0" onAction="#arreter" prefHeight="31.0" prefWidth="123.0" style="-fx-background-color: #1e88e5;" text="Annuler" textFill="#f8f5f5" />
+   </children>
+</AnchorPane>

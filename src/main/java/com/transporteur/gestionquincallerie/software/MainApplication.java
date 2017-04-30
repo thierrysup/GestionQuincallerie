@@ -27,14 +27,17 @@ public class MainApplication extends Application{
 	
 	private ApplicationContext springContext = null;
 	
-	private static String[] argument;	
+	private static String[] argument;
+        
+        public static Stage  stageM;
         
         
        
 	@Override
 	public void start(Stage primaryStage) throws Exception {
             
-            
+               this.stageM = primaryStage;
+               
 		Task<Object> task = new Task<Object>(){
 
 			@Override

@@ -46,7 +46,13 @@ public class EmployeServiceImp implements EmployeIService{
 
     @Override
     public List<Employe> findAllEmploye() throws ServiceException {
-        return employeIDao.findAll();
+        List<Employe> result = new ArrayList<>();
+         for (Employe employe : employeIDao.findAll()) {
+             if((employe.isStatus() == true)
+                     )
+                 result.add(employe);
+         }
+        return result;
     }
 
     @Override
@@ -81,6 +87,24 @@ public class EmployeServiceImp implements EmployeIService{
                 return employe;
         }
         return null;
+    }
+
+    @Override
+    public List<Employe> findEmployeByCriteria(String name, String role) throws ServiceException {
+        List<Employe> result = new ArrayList<>();
+       System.out.println("test"+role);
+            for (Employe employe : employeIDao.findAll()) {
+                if((name.length() == 0|| employe.getNomEmp().toLowerCase().contains(name.toLowerCase()))
+                        && (role == null||String.valueOf(employe.getRole()).toLowerCase().contains(role.toLowerCase()))
+                        &&(employe.isStatus()== true)){
+                    
+                    result.add(employe);
+            
+                }
+                 
+            }
+           
+        return result;
     }
     
 }

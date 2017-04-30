@@ -21,6 +21,7 @@ public interface EmployeIService {
     public List<Employe> findAllEmploye() throws ServiceException;
     public List<Employe> findEmployeByName(String name) throws ServiceException;
     public Employe findEmployeByLogin(String login) throws ServiceException;
+    public List<Employe> findEmployeByCriteria(String name,String role) throws ServiceException;
     public void deleteEmployeById(Employe employe) throws ServiceException;
 
 }

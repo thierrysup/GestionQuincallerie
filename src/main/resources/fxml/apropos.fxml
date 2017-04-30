@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="449.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="147.0" fitWidth="200.0" layoutX="133.0" layoutY="25.0">
+         <image>
+            <Image url="@../image/logo.png" />
+         </image>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ImageView>
+      <Label layoutX="72.0" layoutY="199.0" text="GESTION QUINCALLERIE 1.0">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="166.0" layoutY="250.0" text="Copyright © 2016">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="291.0" text="AUTEURS">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Hyperlink layoutX="14.0" layoutY="317.0" text="- TABOUA KAMTA BASIL" />
+      <Hyperlink layoutX="13.0" layoutY="349.0" text="- TCHINDA NGOUFFO THIERRY" />
+      <Hyperlink layoutX="14.0" layoutY="379.0" text="- EPIE CYRILLE JUNIOR" />
+      <JFXButton fx:id="btnValider2" buttonType="RAISED" layoutX="338.0" layoutY="387.0" onMouseClicked="#valider" prefHeight="31.0" prefWidth="97.0" style="-fx-background-color: #1e88e5;" text="Fermer" textFill="#f8f5f5" />
+   </children>
+</AnchorPane>
