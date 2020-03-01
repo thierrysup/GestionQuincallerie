@@ -80,6 +80,7 @@ public class EmployeServiceImp implements EmployeIService{
 
     @Override
     public Employe findEmployeByLogin(String login) throws ServiceException {
+        
         for (Employe employe : employeIDao.findAll()) {
             if((login.isEmpty() || employe.getLogin().toLowerCase().contains(login.toLowerCase()))
                     &&(employe.isStatus() == true)

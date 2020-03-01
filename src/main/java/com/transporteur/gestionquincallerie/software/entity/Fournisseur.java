@@ -38,7 +38,7 @@ public class Fournisseur implements Serializable{
     private int qte;
     
     @Column
-    private float prixAchat;
+    private float prixUnitaire;//Renomer prixUnitaire
     
     @Column
     private boolean status;
@@ -101,12 +101,12 @@ public class Fournisseur implements Serializable{
         this.qte = qte;
     }
 
-    public float getPrixAchat() {
-        return prixAchat;
+    public float getPrixUnitaire() {
+        return prixUnitaire;
     }
 
-    public void setPrixAchat(float prixAchat) {
-        this.prixAchat = prixAchat;
+    public void setPrixUnitaire(float prixUnitaire) {
+        this.prixUnitaire = prixUnitaire;
     }
 
     public Date getDateFour() {

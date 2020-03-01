@@ -3,7 +3,10 @@ package com.transporteur.gestionquincallerie.software;
 import com.transporteur.gestionquincallerie.software.controllers.AccueilController;
 import com.transporteur.gestionquincallerie.software.controllers.AuthentificationController;
 import com.transporteur.gestionquincallerie.software.dao.ProduitIDao;
+import com.transporteur.gestionquincallerie.software.entity.Employe;
 import com.transporteur.gestionquincallerie.software.entity.Produit;
+import com.transporteur.gestionquincallerie.software.entity.Role;
+import com.transporteur.gestionquincallerie.software.services.impl.EmployeServiceImp;
 import com.transporteur.gestionquincallerie.software.services.impl.FournisseurServiceImp;
 import com.transporteur.gestionquincallerie.software.services.impl.ProduitServiceImp;
 import org.springframework.boot.SpringApplication;
@@ -30,8 +33,6 @@ public class MainApplication extends Application{
 	private static String[] argument;
         
         public static Stage  stageM;
-        
-        
        
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -69,6 +70,7 @@ public class MainApplication extends Application{
         
         
 	public static void main(String[] args) {
+            
 		MainApplication.argument = args;
 		launch(args);
 	}

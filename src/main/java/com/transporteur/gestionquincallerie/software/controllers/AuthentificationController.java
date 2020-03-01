@@ -69,10 +69,23 @@ public class AuthentificationController implements BootInitializable{
     
     @FXML
     void connexion(ActionEvent event) throws IOException {
+        
+    //        Employe emp = new Employe();
+//           emp.setAdresse("toto@gmail.com");
+//           emp.setLogin("root");
+//           String text ="admin";
+//           int val =text.hashCode();
+//           System.out.println("val est "+val);//92668751
+//           emp.setPassWord(String.valueOf(val));
+//           emp.setNomEmp("root");
+//           emp.setRole(Role.ADMIN);
+//           emp.setStatus(true);
+//          empserv.createEmploye(emp);
       
        if((!edtlogin.getText().isEmpty())&&(!edtmdp.getText().isEmpty())){
            emp = empserv.findEmployeByLogin(edtlogin.getText());
             String pass = String.valueOf(edtmdp.getText().hashCode());
+            System.out.println("92668751 but login is"+edtlogin.getText());
            if((emp != null)&&(emp.getPassWord().equals(pass))){
             setCenterLayoutLogin(accueil.initView());
                accueil.initConstruct();

@@ -74,7 +74,7 @@ public class EditApprovAdminController implements BootInitializable{
        edtAdresseFour.setText(four.getAdresseFour());
        edtQteProduct.setText(String.valueOf(four.getQte()));
        edtNonProduit.setText(four.getDesignation());
-       edtPriceFour.setText(String.valueOf(four.getPrixAchat()));
+       edtPriceFour.setText(String.valueOf(four.getPrixUnitaire()));
     }
     
 
@@ -87,7 +87,7 @@ public class EditApprovAdminController implements BootInitializable{
     void setFournisseur(ActionEvent event) {
             four.setAdresseFour(edtAdresseFour.getText());
             four.setDesignation(edtNomFour.getText());
-            four.setPrixAchat(Float.valueOf(edtPriceFour.getText()));
+            four.setPrixUnitaire(Float.valueOf(edtPriceFour.getText()));
             four.setQte(Integer.valueOf(edtQteProduct.getText()));
             four.setNomFourn(edtNomFour.getText());
          

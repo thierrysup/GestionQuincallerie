@@ -69,11 +69,15 @@ public class ApprovController implements BootInitializable{
 
     @FXML
     private TableColumn<Fournisseur, Float> prix;
+    
+     @FXML
+    private TableColumn<Fournisseur, Float> prixAchat;
+
 
     @FXML
     private TableColumn<Fournisseur, String> fourni;
     
-    public static final String DEST = "ficheApprovisionnement.pdf";
+    public static final String DEST = System.currentTimeMillis()+"ficheApprovisionnement.pdf";
 
      
     @FXML
@@ -150,6 +154,7 @@ public class ApprovController implements BootInitializable{
         PdfPTable table = new PdfPTable(5);
         table.addCell(new Phrase("Designation"));
         table.addCell(new Phrase("Quantite"));
+        table.addCell(new Phrase("Prix unité"));
         table.addCell(new Phrase("Prix d'achat"));
         table.addCell(new Phrase("Fournisseur"));
         table.addCell(new Phrase("Adresse fournisseur"));
@@ -157,7 +162,8 @@ public class ApprovController implements BootInitializable{
         for(Fournisseur fournisseur: listeApprovs){
             table.addCell(new Phrase(fournisseur.getDesignation()));
             table.addCell(new Phrase(String.valueOf(fournisseur.getQte())));
-            table.addCell(new Phrase(String.valueOf(fournisseur.getPrixAchat())));
+            table.addCell(new Phrase(String.valueOf(fournisseur.getPrixUnitaire())));
+            table.addCell(new Phrase(String.valueOf(fournisseur.getPrixUnitaire()*fournisseur.getQte())));
             table.addCell(new Phrase(fournisseur.getNomFourn()));
             table.addCell(new Phrase(fournisseur.getAdresseFour()));
         }
@@ -185,7 +191,7 @@ public class ApprovController implements BootInitializable{
         adtNomFournisseur.setPromptText("Nom fournisseur");
         adtNomFournisseur.setDisable(true);
         edtPrixAhat.setText("");
-        edtPrixAhat.setPromptText("Prix d'achat");
+        edtPrixAhat.setPromptText("Prix d'unité");
         edtProduit.setText("");
         edtProduit.setPromptText("Nom du produit");
         edtProduit.setDisable(true);
@@ -209,7 +215,7 @@ public class ApprovController implements BootInitializable{
                    fo.setDesignation(edtProduit.getText());
                    fo.setNomFourn(adtNomFournisseur.getText());
                    fo.setDateFour(new Date());
-                   fo.setPrixAchat(Float.parseFloat(edtPrixAhat.getText()));
+                   fo.setPrixUnitaire(Float.parseFloat(edtPrixAhat.getText()));
                    fo.setQte(Integer.parseInt(edtQteProduit.getText()));
                    fo.setStatus(true);
               Produit p = new Produit();
@@ -224,7 +230,7 @@ public class ApprovController implements BootInitializable{
                    fo.setDesignation(edtProduit.getText());
                    fo.setNomFourn(cbxFournisseur.getValue());
                    fo.setDateFour(new Date());
-                   fo.setPrixAchat(Float.parseFloat(edtPrixAhat.getText()));
+                   fo.setPrixUnitaire(Float.parseFloat(edtPrixAhat.getText()));
                    fo.setQte(Integer.parseInt(edtQteProduit.getText()));
                    fo.setStatus(true);
               Produit p = new Produit();
@@ -241,7 +247,8 @@ public class ApprovController implements BootInitializable{
                    fo.setDesignation(cbxProduit.getValue());
                    fo.setNomFourn(adtNomFournisseur.getText());
                    fo.setDateFour(new Date());
-                   fo.setPrixAchat(Float.parseFloat(edtPrixAhat.getText()));
+                   
+                   fo.setPrixUnitaire(Float.parseFloat(edtPrixAhat.getText()));
                    fo.setQte(Integer.parseInt(edtQteProduit.getText()));
                    fo.setStatus(true);
                    fo.setProduit(pServ.findProduitByName(cbxProduit.getValue()));
@@ -251,7 +258,7 @@ public class ApprovController implements BootInitializable{
                    fo.setDesignation(cbxProduit.getValue());
                    fo.setNomFourn(cbxFournisseur.getValue());
                    fo.setDateFour(new Date());
-                   fo.setPrixAchat(Float.parseFloat(edtPrixAhat.getText()));
+                   fo.setPrixUnitaire(Float.parseFloat(edtPrixAhat.getText()));
                    fo.setQte(Integer.parseInt(edtQteProduit.getText()));
                    fo.setStatus(true);
                    fo.setProduit(pServ.findProduitByName(cbxProduit.getValue()));
@@ -269,7 +276,8 @@ public class ApprovController implements BootInitializable{
        idColum.setCellValueFactory(new PropertyValueFactory<Fournisseur, Long>("Id"));
        designation.setCellValueFactory(new PropertyValueFactory<Fournisseur,String>("designation"));
        qte.setCellValueFactory(new PropertyValueFactory<Fournisseur,Integer>("qte"));
-       prix.setCellValueFactory(new PropertyValueFactory<Fournisseur,Float>("prixAchat"));
+       prix.setCellValueFactory(new PropertyValueFactory<Fournisseur,Float>("prix"));
+       prixAchat.setCellValueFactory(new PropertyValueFactory<Fournisseur,Float>("prixAchat"));
        fourni.setCellValueFactory(new PropertyValueFactory<Fournisseur,String>("nomFourn"));
     }
 

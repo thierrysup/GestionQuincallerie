@@ -44,6 +44,7 @@
                         <TableColumn fx:id="designation" prefWidth="192.0" text="DESIGNATION" />
                         <TableColumn fx:id="qte" prefWidth="101.0" text="QUANTITE" />
                         <TableColumn fx:id="prix" prefWidth="193.0" text="PRIX UNITAIRE" />
+                        <TableColumn fx:id="prixAchat" prefWidth="193.0" text="PRIX ACHAT" />
                         <TableColumn fx:id="fourni" prefWidth="225.0" text="FOURNISSEUR" />
                      </columns>
                      <padding>
